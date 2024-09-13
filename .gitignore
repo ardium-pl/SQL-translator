@@ -1,0 +1,48 @@
+# Dependencje
+node_modules
+
+# Katalogi cache
+**/.angular/cache
+
+# Katalogi buildów
+dist
+
+# Logi
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pliki środowiskowe
+.env
+.env.local
+.env.*.local
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Pliki IDE i edytorów
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Pliki tymczasowe
+tmp/
+temp/
+
+# Pliki konfiguracyjne dla różnych narzędzi
+.nyc_output
+.yarn-integrity
+
+# Pliki testów i pokrycia
+coverage/
+
+# Pliki backupowe
+*.bak
+*.backup
+
+# Pliki konfiguracyjne specyficzne dla użytkownika
+config.user.js
