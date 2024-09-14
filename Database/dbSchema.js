@@ -1,32 +1,3 @@
-const DB_SCHEMA_FORMAT = {
-  tables: [
-    {
-      name: "customers",
-      columns: [
-        { name: "id", type: "INT", primary_key: true, auto_increment: true },
-        { name: "name", type: "VARCHAR(255)" },
-        {
-          name: "email",
-          type: "VARCHAR(255)",
-          constraints: { unique: true, not_null: true },
-        },
-      ],
-    },
-    {
-      name: "orders",
-      columns: [
-        { name: "order_id", type: "INT", primary_key: true },
-        {
-          name: "customer_id",
-          type: "INT",
-          foreign_key: { table: "customers", column: "id" },
-        },
-        { name: "order_date", type: "DATETIME", default: "CURRENT_TIMESTAMP" },
-      ],
-    },
-  ],
-};
-
 export const dbSchema = {
   tables: [
     {

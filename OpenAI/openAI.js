@@ -1,20 +1,21 @@
 import OpenAI from "openai";
 import dotenv from "dotenv";
+import { loggerOpenAI } from "../Utils/logger.js";
 
 dotenv.config();
 
 const openai = new OpenAI();
 
-export async function generateGPTAnswer(messages) {
+export async function generateGPTAnswer(prompt) {
   try {
     const response = await openai.chat.completions.create({
-      messages: messages,
+      messages: prompt,
       model: "gpt-4o-mini",
     });
 
-    return response.choices[0].message.content.trim();
+    return JSON.parse(response.choices[0].message.content);
   } catch (error) {
-    console.error("❌ Error calling OpenAI:", error);
+    loggerOpenAI.error(error);
   }
 }
 

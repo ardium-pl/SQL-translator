@@ -1,5 +1,6 @@
 import mysql from "mysql2/promise";
 import dotenv from "dotenv";
+import { loggerMySQL } from "../Utils/logger.js";
 
 dotenv.config();
 
@@ -15,11 +16,13 @@ export async function createConnection() {
   let connection;
   try {
     connection = await mysql.createConnection(dbConfig);
-    console.log("Successfully established a database connection! ✅");
-
     return connection;
   } catch (err) {
-    console.log("❌ Error creating a connection. Error message:\n", err, "❌");
+    loggerMySQL.error(
+      "❌ Error creating a connection. Error message:\n",
+      err,
+      "❌"
+    );
 
     if (connection) {
       await connection.end();
@@ -32,7 +35,7 @@ export async function createTestConnection() {
 
   if (connection) {
     await connection.end();
-    console.log("Closing a test connection...\n");
+    loggerMySQL.info("Successfully established a database connection! ✅");
   }
 }
 
@@ -42,7 +45,10 @@ export async function executeSQL(query) {
   if (connection) {
     try {
       const [rows] = await connection.execute(query);
+      loggerMySQL.info(`Fetched data: ${JSON.stringify(rows, null, 2)}`);
       return rows;
+    } catch (error) {
+      loggerMySQL.error(error);
     } finally {
       connection.end();
     }
@@ -50,3 +56,8 @@ export async function executeSQL(query) {
 
   return null;
 }
+
+createTestConnection();
+
+// const result = await executeSQL("selefom typy_pacjenta where id > 6;");
+// console.log(result);
