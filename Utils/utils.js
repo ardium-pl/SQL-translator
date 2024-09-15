@@ -1,6 +1,8 @@
+// Don't read this :_
 const messageFormat1 = {
-  sqlStatement: "statement",
+  isTranslatable: true,
   isSelect: true,
+  sqlStatement: "statement",
 };
 
 const messageFormat2 = {

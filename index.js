@@ -1,19 +1,18 @@
 import express from "express";
-import axios from "axios";
-import { generateGPTAnswer } from "./OpenAI/openai.js";
+import {
+  generateGPTAnswer,
+  sqlResponse,
+  finalResponse,
+} from "./OpenAI/openai.js";
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
 import { executeSQL } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
-
-// WORK ON THIS FILE IS IN PROGRESS
-// WORK ON THIS FILE IS IN PROGRESS
-// WORK ON THIS FILE IS IN PROGRESS
 
 const app = express();
 app.use(express.json());
 
 app.post("/language-to-sql", async (req, res) => {
-  loggerMain.info("📩 Received new POST request.");
+  loggerMain.info("📩 Received a new POST request.");
 
   const userQuery = req.body?.query;
   if (!userQuery) {
@@ -24,7 +23,11 @@ app.post("/language-to-sql", async (req, res) => {
 
   try {
     // Call OpenAI to translate natural language to SQL
-    const sqlAnswer = await generateGPTAnswer(promptForSQL(userQuery));
+    const sqlAnswer = await generateGPTAnswer(
+      promptForSQL(userQuery),
+      sqlResponse,
+      "sql_response"
+    );
     if (!sqlAnswer) {
       loggerOpenAI.error("Failed to create the SQL query.");
       res.status(500).json({
@@ -33,16 +36,13 @@ app.post("/language-to-sql", async (req, res) => {
 
       return null;
     }
+    if (!sqlAnswer.isTranslatable) {
+      res.status(200).json({
+        message: "😓 Unfortunately, I am unable to translate this query.",
+      });
 
-    loggerOpenAI.info(
-      `Generated answer: ${JSON.stringify(sqlAnswer, null, 2)}`
-    );
-    loggerMain.info(
-      `isSelect: ${
-        sqlAnswer.isSelect
-      }, isSelect type: ${typeof sqlAnswer.isSelect}`
-    );
-
+      return null;
+    }
     if (!sqlAnswer.isSelect) {
       res.status(200).json({
         message:
@@ -55,14 +55,6 @@ app.post("/language-to-sql", async (req, res) => {
 
     // Execute the generated SQL query
     const rows = await executeSQL(sqlAnswer.sqlStatement);
-    if (rows.length < 1) {
-      res.status(200).json({
-        message: "No rows found.",
-        sqlStatement: sqlAnswer.sqlStatement,
-      });
-
-      return null;
-    }
     if (!rows) {
       res.status(500).json({
         message: "Database error. Failed to execute the SQL query.",
@@ -71,32 +63,39 @@ app.post("/language-to-sql", async (req, res) => {
 
       return null;
     }
+    if (rows.length < 1) {
+      res.status(200).json({
+        message: "No rows found.",
+        sqlStatement: sqlAnswer.sqlStatement,
+      });
 
-    // Prepare prompt for structuring the response data
-    // const responsePrompt = [
-    //   {
-    //     role: "system",
-    //     content:
-    //       "You are a data formatter. Format the following SQL result into a well-structured JSON format.",
-    //   },
-    //   {
-    //     role: "system",
-    //     content: `The result should be a JSON object with the following format:\n{\n  "query": string,  // The original user query\n  "data": array,   // Data retrieved from the database\n  "answer": string  // Paraphrased answer to the user question based on the data\n}`,
-    //   },
-    //   {
-    //     role: "user",
-    //     content: `User query: ${userQuery}\nData: ${JSON.stringify(result)}`,
-    //   },
-    // ];
+      return null;
+    }
 
     // Call OpenAI to format the result
-    // const formattedResponse = await generateGPTAnswer(responsePrompt);
-    // res.json(JSON.parse(formattedResponse));
+    const formattedAnswer = await generateGPTAnswer(
+      promptForAnswer(userQuery, sqlAnswer.sqlStatement, rows),
+      finalResponse,
+      "final_response"
+    );
+    if (!formattedAnswer) {
+      loggerOpenAI.error("Failed to generate the formatted answer.");
+      res.status(500).json({
+        message: "An error occured while processing the request.",
+      });
 
+      return null;
+    }
+
+    const message = formattedAnswer.isRelevant
+      ? formattedAnswer.formattedAnswer
+      : "😓 Unfortunately, based on the information in our database I am unable to answer the question.";
+
+    // Send back the response
     res.status(200).json({
       sqlStatement: sqlAnswer.sqlStatement,
       rawData: rows,
-      formattedAnswer: "TBC",
+      formattedAnswer: message,
     });
     loggerMain.info("✅ Successfully processed the request!");
   } catch (error) {
@@ -112,4 +111,18 @@ app.listen(PORT, () => {
   loggerMain.info(`Server is running on port ${PORT}`);
 });
 
-// console.log(promptForSQL("123"))
+// console.log(
+//   promptForSQL("Iloma pacjentami dziennie zajmuje sie jedna pielegniarka?")
+// );
+
+// console.log(
+//   promptForAnswer(
+//     "Iloma pacjentami dziennie zajmuje sie jedna pielegniarka?",
+//     "SELECT AVG(minuty_pielegniarka) AS avg_patients_per_nurse FROM stan_kolejki;",
+//     [
+//       {
+//         avg_patients_per_nurse: "16.6800",
+//       },
+//     ]
+//   )
+// );

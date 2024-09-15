@@ -45,7 +45,8 @@ export async function executeSQL(query) {
   if (connection) {
     try {
       const [rows] = await connection.execute(query);
-      loggerMySQL.info(`Fetched data: ${JSON.stringify(rows, null, 2)}`);
+      loggerMySQL.info("Successfully fetched the data! ✅");
+      console.log("💾 Fetched data:", rows);
       return rows;
     } catch (error) {
       loggerMySQL.error(error);
