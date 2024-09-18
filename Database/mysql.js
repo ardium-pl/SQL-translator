@@ -17,13 +17,9 @@ export async function createConnection() {
   try {
     connection = await mysql.createConnection(dbConfig);
     return connection;
-  } catch (err) {
-    loggerMySQL.error(
-      "❌ Error creating a connection. Error message:\n",
-      err,
-      "❌"
-    );
-
+  } catch (error) {
+    loggerMySQL.error("❌ Error creating a connection.");
+    loggerMySQL.error(error)
     if (connection) {
       await connection.end();
     }
@@ -39,7 +35,6 @@ export async function createTestConnection() {
   }
 }
 
-// Helper to execute SQL on MySQL database
 export async function executeSQL(query) {
   const connection = await createConnection();
   if (connection) {
@@ -59,6 +54,3 @@ export async function executeSQL(query) {
 }
 
 createTestConnection();
-
-// const result = await executeSQL("selefom typy_pacjenta where id > 6;");
-// console.log(result);

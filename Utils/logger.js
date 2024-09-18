@@ -23,4 +23,5 @@ function createLogger(level, label) {
 
 export const loggerMain = createLogger("info", "main");
 export const loggerMySQL = createLogger("info", "mysql");
+export const loggerMongoDB = createLogger("info", "mongodb");
 export const loggerOpenAI = createLogger("info", "openai");

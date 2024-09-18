@@ -33,7 +33,7 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
       return null;
     }
     loggerOpenAI.info("Successfully generated an AI response! ✅");
-    console.log("📄 Response:", response, "\n");
+    // console.log("📄 Response:", response, "\n");
     console.log("📄 Parsed response:", response.parsed);
     return response.parsed;
   } catch (error) {
