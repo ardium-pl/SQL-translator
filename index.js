@@ -15,6 +15,8 @@ app.post("/language-to-sql", async (req, res) => {
   loggerMain.info("📩 Received a new POST request.");
 
   const userQuery = req.body?.query;
+  // console.log(promptForSQL(userQuery));
+
   if (!userQuery) {
     res.status(400).json({ message: "No query provided." });
 
@@ -28,6 +30,8 @@ app.post("/language-to-sql", async (req, res) => {
       sqlResponse,
       "sql_response"
     );
+    loggerMySQL.info(`🤖 Generated SQL: ${sqlAnswer.sqlStatement}`);
+
     if (!sqlAnswer) {
       loggerOpenAI.error("Failed to create the SQL query.");
       res.status(500).json({
@@ -36,13 +40,13 @@ app.post("/language-to-sql", async (req, res) => {
 
       return null;
     }
-    if (!sqlAnswer.isTranslatable) {
-      res.status(200).json({
-        message: "😓 Unfortunately, I am unable to translate this query.",
-      });
+    // if (!sqlAnswer.isTranslatable) {
+    //   res.status(200).json({
+    //     message: "😓 Unfortunately, I am unable to translate this query.",
+    //   });
 
-      return null;
-    }
+    //   return null;
+    // }
     if (!sqlAnswer.isSelect) {
       res.status(200).json({
         message:
@@ -63,14 +67,14 @@ app.post("/language-to-sql", async (req, res) => {
 
       return null;
     }
-    if (rows.length < 1) {
-      res.status(200).json({
-        message: "No rows found.",
-        sqlStatement: sqlAnswer.sqlStatement,
-      });
+    // if (rows.length < 1) {
+    //   res.status(200).json({
+    //     message: "No rows found.",
+    //     sqlStatement: sqlAnswer.sqlStatement,
+    //   });
 
-      return null;
-    }
+    //   return null;
+    // }
 
     // Call OpenAI to format the result
     const formattedAnswer = await generateGPTAnswer(
@@ -87,15 +91,16 @@ app.post("/language-to-sql", async (req, res) => {
       return null;
     }
 
-    const message = formattedAnswer.isRelevant
-      ? formattedAnswer.formattedAnswer
-      : "😓 Unfortunately, based on the information in our database I am unable to answer the question.";
+    // const message = formattedAnswer.isRelevant
+    //   ? formattedAnswer.formattedAnswer
+    //   : "😓 Unfortunately, based on the information in our database I am unable to answer the question.";
 
     // Send back the response
     res.status(200).json({
+      question: userQuery,
       sqlStatement: sqlAnswer.sqlStatement,
+      formattedAnswer: formattedAnswer.formattedAnswer,
       rawData: rows,
-      formattedAnswer: message,
     });
     loggerMain.info("✅ Successfully processed the request!");
   } catch (error) {
@@ -110,19 +115,3 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   loggerMain.info(`Server is running on port ${PORT}`);
 });
-
-// console.log(
-//   promptForSQL("Iloma pacjentami dziennie zajmuje sie jedna pielegniarka?")
-// );
-
-// console.log(
-//   promptForAnswer(
-//     "Iloma pacjentami dziennie zajmuje sie jedna pielegniarka?",
-//     "SELECT AVG(minuty_pielegniarka) AS avg_patients_per_nurse FROM stan_kolejki;",
-//     [
-//       {
-//         avg_patients_per_nurse: "16.6800",
-//       },
-//     ]
-//   )
-// );

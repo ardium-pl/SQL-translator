@@ -9,13 +9,11 @@ dotenv.config();
 const openai = new OpenAI();
 
 export const sqlResponse = z.object({
-  isTranslatable: z.boolean(),
   isSelect: z.boolean(),
   sqlStatement: z.string(),
 });
 
 export const finalResponse = z.object({
-  isRelevant: z.boolean(),
   formattedAnswer: z.string(),
 });
 
@@ -34,7 +32,7 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
     }
     loggerOpenAI.info("Successfully generated an AI response! ✅");
     // console.log("📄 Response:", response, "\n");
-    console.log("📄 Parsed response:", response.parsed);
+    // console.log("📄 Parsed response:", response.parsed);
     return response.parsed;
   } catch (error) {
     if (error.constructor.name == "LengthFinishReasonError") {
