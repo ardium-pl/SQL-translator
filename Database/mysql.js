@@ -19,7 +19,7 @@ export async function createConnection() {
     return connection;
   } catch (error) {
     loggerMySQL.error("❌ Error creating a connection.");
-    loggerMySQL.error(error)
+    loggerMySQL.error(error);
     if (connection) {
       await connection.end();
     }
@@ -40,7 +40,8 @@ export async function executeSQL(query) {
   if (connection) {
     try {
       const [rows] = await connection.execute(query);
-      loggerMySQL.info("Successfully fetched the data! ✅");
+      loggerMySQL.info("Successfully fetched the raw data! ✅");
+      loggerMySQL.info(`💾 Number of rows fetched: ${rows.length}`);
       // console.log("💾 Fetched data:", rows);
       return rows;
     } catch (error) {

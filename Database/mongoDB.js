@@ -14,12 +14,18 @@ async function mongoRetrieveOne(database, collection, client) {
     const db = client.db(database);
     const coll = db.collection(collection);
 
+    const filter = {
+      schemaVersion:
+        "withExampleDistinctValuesProperColumnDescriptions",
+    };
     const options = {
-      // Exclude _id field from the returned document
+      // Exclude _id and schemaVersion fields from the returned document
+      // projection: { _id: 0, schemaVersion: 0 },
       projection: { _id: 0 },
     };
-    const document = await coll.findOne({}, options);
+    const document = await coll.findOne(filter, options);
     loggerMongoDB.info(`📄 Retrieved a single document.`);
+    loggerMongoDB.info(`Schema version: ${document.schemaVersion}`);
 
     return document;
   } catch (error) {
