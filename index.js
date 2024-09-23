@@ -7,13 +7,31 @@ import {
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
 import { executeSQL } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
+
+// Authorization middleware
+app.use((req, res, next) => {
+  loggerMain.info("📩 Received a new POST request.");
+
+  const apiKey = process.env.API_KEY;
+  const userApiKey = req.headers["x-api-key"];
+
+  if (userApiKey !== apiKey) {
+    loggerMain.warn(
+      `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
+    );
+    res.status(403).json({ message: "Forbidden: Invalid API Key" });
+  } else {
+    next();
+  }
+});
+
 app.use(express.json());
 
 app.post("/language-to-sql", async (req, res) => {
-  loggerMain.info("📩 Received a new POST request.");
-
   const userQuery = req.body?.query;
   // console.log(promptForSQL(userQuery));
 
@@ -102,11 +120,11 @@ app.post("/language-to-sql", async (req, res) => {
       formattedAnswer: formattedAnswer.formattedAnswer,
       rawData: rows,
     });
-    loggerMain.info("✅ Successfully processed the request!");
+    loggerMain.info("✅ Successfully processed the request!\n");
   } catch (error) {
     loggerMain.error(error);
     res.status(500).json({
-      message: "An error occured while processing the request.",
+      message: "An error occured while processing the request.\n",
     });
   }
 });
