@@ -1,0 +1,46 @@
+@import "./../typography/typography.scss";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 22px;
+
+  background-color: var(--md-sys-color-surface-container-highest);
+  border-radius: var(--md-corner-large, 16px);
+}
+
+.titles-container {
+  display: flex;
+  padding: 0 16px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  // align-self: stretch;
+}
+
+.title-main {
+  @include m3-headline-small;
+  color: var(--md-sys-color-on-surface);
+}
+
+.subtitle {
+  @include m3-title-medium;
+  color: var(--md-sys-color-on-surface);
+}
+
+.cards-container {
+  display: flex;
+  height: 350px;
+  width: 90vw;
+  min-width: 400px;
+  max-width: 700px;
+  padding: 16px;
+  box-sizing: border-box;
+  flex-direction: column;
+  // gap: 42px;
+
+  border-radius: var(--md-corner-large, 16px);
+  background: var(--md-sys-color-surface-container-high, #ece6f0);
+}

@@ -1,0 +1,25 @@
+@import "./../../typography/typography.scss";
+
+.button {
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+  padding: 10px 24px;
+
+  @include m3-label-large;
+  letter-spacing: 0.5px;
+  color: var(--md-sys-color-on-primary);
+  border-radius: var(--md-corner-full);
+  background-color: var(--md-sys-color-primary);
+}
+
+.button:hover {
+  background-color: rgb(87, 72, 124);
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
+    0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+}
+
+.button:active {
+  background-color: rgb(70, 56, 106);
+  box-shadow: none;
+}

@@ -1,0 +1,142 @@
+// Typography Mixins
+
+// Display
+@mixin m3-display-large {
+  font-family: 'Roboto';
+  font-size: 57px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 64px;
+  letter-spacing: 0;
+}
+
+@mixin m3-display-medium {
+  font-family: 'Roboto';
+  font-size: 45px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 52px;
+  letter-spacing: 0;
+}
+
+@mixin m3-display-small {
+  font-family: 'Roboto';
+  font-size: 36px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 44px;
+  letter-spacing: 0;
+}
+
+// Headline
+@mixin m3-headline-large {
+  font-family: 'Roboto';
+  font-size: 32px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 40px;
+  letter-spacing: 0;
+}
+
+@mixin m3-headline-medium {
+  font-family: 'Roboto';
+  font-size: 28px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 36px;
+  letter-spacing: 0;
+}
+
+@mixin m3-headline-small {
+  font-family: 'Roboto';
+  font-size: 24px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 32px;
+  letter-spacing: 0;
+}
+
+// Title
+@mixin m3-title-large {
+  font-family: 'Roboto';
+  font-size: 22px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 28px;
+  letter-spacing: 0;
+}
+
+@mixin m3-title-medium {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 500; // 'medium' translates to 500
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+@mixin m3-title-small {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 500; // 'medium' translates to 500
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+// Label
+@mixin m3-label-large {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 500; // 'medium' translates to 500
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@mixin m3-label-large-prominent {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 600; // 'semibold' translates to 600
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@mixin m3-label-medium {
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500; // 'medium' translates to 500
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@mixin m3-label-medium-prominent {
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 600; // 'semibold' translates to 600
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+@mixin m3-label-small {
+  font-family: 'Roboto';
+  font-size: 11px;
+  font-weight: 500; // 'medium' translates to 500
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+// Body
+@mixin m3-body-large {
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 24px;
+  letter-spacing: 0;
+}
+
+@mixin m3-body-medium {
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 20px;
+  letter-spacing: 0;
+}
+
+@mixin m3-body-small {
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 400; // 'regular' translates to 400
+  line-height: 16px;
+  letter-spacing: 0;
+}

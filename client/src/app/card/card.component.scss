@@ -1,0 +1,48 @@
+@import "./../../typography/typography.scss";
+
+:host {
+  box-sizing: border-box;
+  flex: 1;
+  display: flex;
+  padding: var(--space-ag-cell-horizontal-padding, 18px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  border-radius: var(----md-corner-medium, 12px);
+  background: var(--md-sys-color-surface-bright, #fef7ff);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 12px;
+  flex: 1 0 0;
+}
+
+.card-title {
+  @include m3-title-medium;
+  color: var(--md-sys-on-surface);
+}
+
+.card-content {
+  display: flex;
+  padding: 8px 10px;
+  align-items: flex-start;
+  align-self: stretch;
+  flex: 1 0 0;
+
+  @include m3-body-large;
+  color: var(--md-sys-on-surface);
+  border-radius: var(--md-corner-small, 8px);
+  background: var(--md-sys-color-surface-container-high, #ece6f0);
+}
+
+.button-container {
+  display: flex;
+  align-self: stretch;
+  justify-content: flex-end;
+  align-items: center;
+}

@@ -1,0 +1,20 @@
+@import "./typography/typography.scss";
+@import "./shape/shape.scss";
+@import "./themes/light.scss";
+
+html,
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  min-width: 100vw;
+  background-color: #38314a;
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
