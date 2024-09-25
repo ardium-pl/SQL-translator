@@ -1,6 +1,12 @@
 @import "./design-system/typography/typography.scss";
 @import "./design-system/shape/shape.scss";
 @import "./design-system/themes/light.scss";
+// AG Grid theme imports
+@import 'ag-grid-community/styles/ag-grid.css';
+@import 'ag-grid-community/styles/ag-theme-material.css';
+@import 'ag-grid-community/styles/ag-theme-alpine.css';
+@import 'ag-grid-community/styles/ag-theme-quartz.css';
+
 
 
 html,

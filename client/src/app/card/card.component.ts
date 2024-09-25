@@ -1,17 +1,22 @@
 import { Component, Input, OnInit, Signal } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import { CardConfig } from '../interfaces/card-config';
+import {
+  DefaultCardConfig,
+  GridCardConfig,
+  InputCardConfig,
+} from '../interfaces/card-config';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ResultsGridComponent } from '../results-grid/results-grid.component';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule],
+  imports: [ButtonComponent, ReactiveFormsModule, ResultsGridComponent],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
 export class CardComponent implements OnInit {
-  @Input() config!: Signal<CardConfig>;
+  @Input() config!: Signal<DefaultCardConfig | InputCardConfig | GridCardConfig>;
 
   form!: FormGroup;
   onSubmit!: () => void;

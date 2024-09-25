@@ -8,7 +8,11 @@ import { ButtonComponent } from './button/button.component';
 import { DataFetchingService } from './services/data-fetching.service';
 import { inject } from '@angular/core';
 import { EXAMPLE_USER_QUERY } from './utils/exampleValues';
-import { CardConfig } from './interfaces/card-config';
+import {
+  DefaultCardConfig,
+  InputCardConfig,
+  GridCardConfig,
+} from './interfaces/card-config';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +33,7 @@ export class AppComponent {
 
   title = 'SQL-translator';
 
-  queryCardConfig: Signal<CardConfig> = computed(() => {
+  queryCardConfig: Signal<InputCardConfig> = computed((): InputCardConfig => {
     return {
       type: 'input',
       title: 'Zapytanie do bazy danych',
@@ -49,19 +53,34 @@ export class AppComponent {
     };
   });
 
-  aiAnswerCardConfig: Signal<CardConfig> = computed(() => {
-    return {
-      type: 'default',
-      title: 'Odpowiedź Asystenta',
-      placeholderText: this.dataFetchingService.formattedAnswer(),
-    };
-  });
+  aiAnswerCardConfig: Signal<DefaultCardConfig> = computed(
+    (): DefaultCardConfig => {
+      return {
+        type: 'default',
+        title: 'Odpowiedź Asystenta',
+        placeholderText: this.dataFetchingService.formattedAnswer(),
+      };
+    }
+  );
 
-  sqlStatementCardConfig: Signal<CardConfig> = computed(() => {
+  sqlStatementCardConfig: Signal<DefaultCardConfig> = computed(
+    (): DefaultCardConfig => {
+      return {
+        type: 'default',
+        title: 'Tłumaczenie SQL',
+        placeholderText: this.dataFetchingService.sqlStatement(),
+      };
+    }
+  );
+
+  gridCardConfig: Signal<GridCardConfig> = computed((): GridCardConfig => {
     return {
-      type: 'default',
-      title: 'Tłumaczenie SQL',
-      placeholderText: this.dataFetchingService.sqlStatement(),
+      type: 'grid',
+      title: 'Dane z bazy',
+        buttonConfig: {
+        type: 'text',
+        text: 'Powrót',
+      },
     };
   });
 

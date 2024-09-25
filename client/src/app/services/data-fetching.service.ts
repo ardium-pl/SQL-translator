@@ -5,15 +5,16 @@ import { ReqeustPayload } from '../interfaces/reqeust-payload';
 import {
   EXAMPLE_FORMATTED_ANSWER,
   EXAMPLE_SQL_STATEMENT,
-  EXAMPLE_ROW_DATA,
+  EXAMPLE_ROW_DATA_ARRAY,
 } from '../utils/exampleValues';
+import { RowMYSQL } from '../interfaces/row-mysql';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
-  readonly rowData = signal<any[]>(EXAMPLE_ROW_DATA);
+  readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
 
