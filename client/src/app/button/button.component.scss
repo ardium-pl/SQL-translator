@@ -4,10 +4,10 @@
   cursor: pointer;
   border: none;
   box-sizing: border-box;
-  padding: 10px 24px;
+  padding: 0.625rem 1.5rem;
 
   @include m3-label-large;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.03125rem;
   color: var(--md-sys-color-on-primary);
   border-radius: var(--md-corner-full);
   background-color: var(--md-sys-color-primary);
@@ -15,8 +15,8 @@
 
 .button:hover {
   background-color: rgb(87, 72, 124);
-  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.3),
-    0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+  box-shadow: 0rem 0.0625rem 0.125rem 0rem rgba(0, 0, 0, 0.3),
+    0rem 0.0625rem 0.1875rem 0.0625rem rgba(0, 0, 0, 0.15);
 }
 
 .button:active {

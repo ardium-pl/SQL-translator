@@ -2,8 +2,10 @@
 @import "./design-system/shape/shape.scss";
 @import "./design-system/themes/light.scss";
 
+
 html,
 body {
+  font-size: 16px;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
