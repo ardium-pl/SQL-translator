@@ -7,11 +7,14 @@
   justify-content: flex-start;
   gap: 1.375rem;
 
-  background-color: var(--md-sys-color-surface-container-highest);
+  // background-color: var(--md-sys-color-surface-container-highest);
   border-radius: var(--md-corner-large, 1rem);
 }
 
 .titles-container {
+  min-width: 15rem;
+  width: 42vw;
+  max-width: 43.75rem;
   display: flex;
   padding: 0 1rem;
   flex-direction: column;
@@ -37,22 +40,18 @@
   flex-direction: column;
   gap: 2rem;
 
-  border-bottom-left-radius: inherit;
-  border-bottom-right-radius: inherit;
+  border-radius: inherit;
   background: var(--md-sys-color-surface-container-high, #ece6f0);
 }
 
 .cards-container {
   display: flex;
-  // height: 350px;
-  width: 42vw;
   min-width: 15rem;
+  width: 42vw;
   max-width: 43.75rem;
   box-sizing: border-box;
   flex-direction: column;
   gap: 1.5rem;
-
-
 }
 
 .button-container {
