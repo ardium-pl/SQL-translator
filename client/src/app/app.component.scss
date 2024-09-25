@@ -35,7 +35,7 @@
   padding: 1rem;
   box-sizing: border-box;
   flex-direction: column;
-  gap: 5rem;
+  gap: 2rem;
 
   border-bottom-left-radius: inherit;
   border-bottom-right-radius: inherit;
@@ -45,12 +45,12 @@
 .cards-container {
   display: flex;
   // height: 350px;
-  width: 90vw;
-  min-width: 25rem;
+  width: 42vw;
+  min-width: 15rem;
   max-width: 43.75rem;
   box-sizing: border-box;
   flex-direction: column;
-  gap: 2.625rem;
+  gap: 1.5rem;
 
 
 }

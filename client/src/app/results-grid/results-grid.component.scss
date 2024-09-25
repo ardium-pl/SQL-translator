@@ -1,6 +1,7 @@
 ::ng-deep {
     ag-grid-angular {
-        flex: 1 0 0;
-        height: 10rem;
+        min-height: 14rem;
+        height: 40vh;
+        max-height: 22rem;
     }
 }

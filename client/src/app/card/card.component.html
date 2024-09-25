@@ -4,12 +4,12 @@
     @if (config().type === 'input') {
 
     <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <input
+      <textarea
         formControlName="userInput"
         type="text"
         class="card-content"
         placeholder=""
-      />
+      ></textarea>
 
       <div class="button-container">
         <app-button [config]="buttonConfig" />

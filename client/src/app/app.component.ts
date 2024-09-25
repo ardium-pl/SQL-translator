@@ -27,7 +27,7 @@ import { ButtonConfig } from './interfaces/button-config';
 })
 export class AppComponent {
   readonly dataFetchingService = inject(DataFetchingService);
-  readonly displayGrid = signal(false);
+  readonly displayGrid = signal(true);
 
   readonly queryCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
