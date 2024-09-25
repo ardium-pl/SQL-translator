@@ -1,4 +1,8 @@
-<button class="button" [type]="config.type">
+<button
+  class="button"
+  [type]="config.type"
+  (click)="config.onClick ? config.onClick() : null"
+>
   {{ config.text }}
   <div class="focus-overlay"></div>
 </button>

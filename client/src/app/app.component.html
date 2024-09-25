@@ -3,18 +3,31 @@
   <h2 class="subtitle">BUDMAT</h2>
 </div>
 
-<div class="cards-container">
-  <!-- Zapytanie do bazy danych -->
-  <app-card [config]="queryCardConfig" />
+<div class="main-container">
+  <div class="cards-container">
+    @if (displayGrid()) {
 
-  <!-- Odpowiedź Asystenta -->
-  <app-card [config]="aiAnswerCardConfig" />
+    <!-- Dane z bazy -->
+    <app-card [config]="gridCardConfig" />
 
-  <!-- Tłumaczenie SQL -->
-  <app-card [config]="sqlStatementCardConfig" />
+    } @else {
 
-  <!-- Dane z bazy -->
-  <app-card [config]="gridCardConfig" />
+    <!-- Zapytanie do bazy danych -->
+    <app-card [config]="queryCardConfig" />
+
+    <!-- Odpowiedź Asystenta -->
+    <app-card [config]="aiAnswerCardConfig" />
+
+    <!-- Tłumaczenie SQL -->
+    <app-card [config]="sqlStatementCardConfig" />
+    }
+  </div>
+
+  @if (this.dataFetchingService.rowData().length > 1 && !displayGrid()) {
+  <div class="button-container">
+    <app-button [config]="showGridButtonConfig" />
+  </div>
+  }
 </div>
 
 <!-- <div class="cards-container">

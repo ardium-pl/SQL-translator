@@ -1,4 +1,4 @@
-import { Component, computed, Signal } from '@angular/core';
+import { Component, computed, signal, Signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -9,6 +9,7 @@ import { DataFetchingService } from './services/data-fetching.service';
 import { inject } from '@angular/core';
 import { EXAMPLE_USER_QUERY } from './utils/exampleValues';
 import { CardConfig } from './interfaces/card-config';
+import { ButtonConfig } from './interfaces/button-config';
 
 @Component({
   selector: 'app-root',
@@ -26,10 +27,9 @@ import { CardConfig } from './interfaces/card-config';
 })
 export class AppComponent {
   readonly dataFetchingService = inject(DataFetchingService);
+  readonly displayGrid = signal(false);
 
-  title = 'SQL-translator';
-
-  queryCardConfig: Signal<CardConfig> = computed((): CardConfig => {
+  readonly queryCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
       type: 'input',
       title: 'Zapytanie do bazy danych',
@@ -49,7 +49,7 @@ export class AppComponent {
     };
   });
 
-  aiAnswerCardConfig: Signal<CardConfig> = computed((): CardConfig => {
+  readonly aiAnswerCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
       type: 'default',
       title: 'Odpowiedź Asystenta',
@@ -57,24 +57,33 @@ export class AppComponent {
     };
   });
 
-  sqlStatementCardConfig: Signal<CardConfig> = computed((): CardConfig => {
-    return {
-      type: 'default',
-      title: 'Tłumaczenie SQL',
-      placeholderText: this.dataFetchingService.sqlStatement(),
-    };
-  });
+  readonly sqlStatementCardConfig: Signal<CardConfig> = computed(
+    (): CardConfig => {
+      return {
+        type: 'default',
+        title: 'Tłumaczenie SQL',
+        placeholderText: this.dataFetchingService.sqlStatement(),
+      };
+    }
+  );
 
-  gridCardConfig: Signal<CardConfig> = computed((): CardConfig => {
+  readonly gridCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
       type: 'grid',
       title: 'Dane z bazy',
       buttonConfig: {
         type: 'text',
         text: 'Powrót',
+        onClick: () => this.displayGrid.set(false),
       },
     };
   });
+
+  readonly showGridButtonConfig: ButtonConfig = {
+    type: 'text',
+    text: 'Przejdź do tabeli rezultatów',
+    onClick: () => this.displayGrid.set(true),
+  };
 
   // queryForm = new FormGroup({
   //   userInput: new FormControl(EXAMPLE_USER_QUERY),

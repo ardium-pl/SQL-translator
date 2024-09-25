@@ -30,19 +30,36 @@
   color: var(--md-sys-color-on-surface);
 }
 
+.main-container {
+  display: flex;
+  padding: 1rem;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 5rem;
+
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+  background: var(--md-sys-color-surface-container-high, #ece6f0);
+}
+
 .cards-container {
   display: flex;
   // height: 350px;
   width: 90vw;
   min-width: 25rem;
   max-width: 43.75rem;
-  padding: 1rem;
   box-sizing: border-box;
   flex-direction: column;
   gap: 2.625rem;
 
-  border-radius: var(--md-corner-large, 1rem);
-  background: var(--md-sys-color-surface-container-high, #ece6f0);
+
+}
+
+.button-container {
+  display: flex;
+  align-self: stretch;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 // CARD
