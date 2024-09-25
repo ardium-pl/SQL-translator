@@ -1,11 +1,31 @@
-<!-- <div class="card"> -->
-  <h3 class="card-title">Zapytanie do bazy danych</h3>
+<div class="card">
+  <h3 class="card-title">{{ config().title }}</h3>
   <div class="card-body">
+    @if (config().type === 'input') {
+
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input
+        formControlName="userInput"
+        type="text"
+        class="card-content"
+        placeholder=""
+      />
+
+      <div class="button-container">
+        <app-button
+          [config]="config().buttonConfig || { type: 'submit', text: 'Submit' }"
+        />
+      </div>
+    </form>
+
+    } @else {
+
     <div class="card-content">
-      Jakie zyski wygenerowali nasi czterej najlepsi handlowcy w roku 2024?
+      {{ config().placeholderText }}
     </div>
-    <div class="button-container">
-      <app-button />
-    </div>
+
+    }
   </div>
-<!-- </div> -->
+</div>
+
+<!-- (ngSubmit)="config.onSubmit ? config.onSubmit() : null" -->

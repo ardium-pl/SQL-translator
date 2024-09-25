@@ -5,6 +5,17 @@
 
 <div class="cards-container">
   <!-- Zapytanie do bazy danych -->
+  <app-card [config]="queryCardConfig" />
+
+  <!-- Odpowiedź Asystenta -->
+  <app-card [config]="aiAnswerCardConfig" />
+
+  <!-- Tłumaczenie SQL -->
+  <app-card [config]="sqlStatementCardConfig" />
+</div>
+
+<!-- <div class="cards-container">
+  Zapytanie do bazy danych
   <div class="card">
     <h3 class="card-title">Zapytanie do bazy danych</h3>
     <div class="card-body">
@@ -23,7 +34,7 @@
     </div>
   </div>
 
-  <!-- Odpowiedź Asystenta -->
+  Odpowiedź Asystenta
   <div class="card">
     <h3 class="card-title">Odpowiedź Asystenta</h3>
     <div class="card-body">
@@ -33,7 +44,7 @@
     </div>
   </div>
 
-  <!-- Tłumaczenie SQL -->
+  Tłumaczenie SQL
   <div class="card">
     <h3 class="card-title">Tłumaczenie SQL</h3>
     <div class="card-body">
@@ -42,4 +53,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

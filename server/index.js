@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import {
   generateGPTAnswer,
   sqlResponse,
@@ -12,6 +13,8 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
+app.use(express.json());
+app.use(cors());
 // Authorization middleware
 app.use((req, res, next) => {
   loggerMain.info("📩 Received a new POST request.");
@@ -28,8 +31,6 @@ app.use((req, res, next) => {
     next();
   }
 });
-
-app.use(express.json());
 
 app.post("/language-to-sql", async (req, res) => {
   const userQuery = req.body?.query;

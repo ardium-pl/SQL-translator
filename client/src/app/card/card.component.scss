@@ -1,19 +1,33 @@
 @import "./../../design-system/typography/typography.scss";
 
-:host {
+// :host {
+//   box-sizing: border-box;
+//   flex: 1;
+//   display: flex;
+//   padding: var(--space-ag-cell-horizontal-padding, 18px);
+//   flex-direction: column;
+//   align-items: flex-start;
+//   gap: 12px;
+
+//   border-radius: var(----md-corner-medium, 12px);
+//   background: var(--md-sys-color-surface-bright, #fef7ff);
+// }
+
+.card {
   box-sizing: border-box;
   flex: 1;
   display: flex;
-  padding: var(--space-ag-cell-horizontal-padding, 18px);
+  padding: 10px 14px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
+  gap: 10px;
 
   border-radius: var(----md-corner-medium, 12px);
   background: var(--md-sys-color-surface-bright, #fef7ff);
 }
 
-.card-body {
+.card-body,
+.form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -36,6 +50,7 @@
 
   @include m3-body-large;
   color: var(--md-sys-on-surface);
+  border: none;
   border-radius: var(--md-corner-small, 8px);
   background: var(--md-sys-color-surface-container-high, #ece6f0);
 }
