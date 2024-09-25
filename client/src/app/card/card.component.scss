@@ -33,7 +33,6 @@
   align-items: flex-start;
   align-self: stretch;
   gap: 0.625rem;
-  flex: 1 0 0;
 }
 
 .card-title {
@@ -52,6 +51,8 @@ app-results-grid {
 }
 
 .card-content {
+  max-height: 7.2rem;
+  overflow: auto;
   padding: 0.5rem 0.625rem;
   @include m3-body-large;
   color: var(--md-sys-on-surface);
