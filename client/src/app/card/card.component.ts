@@ -1,12 +1,9 @@
 import { Component, Input, OnInit, Signal } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
-import {
-  DefaultCardConfig,
-  GridCardConfig,
-  InputCardConfig,
-} from '../interfaces/card-config';
+import { CardConfig } from '../interfaces/card-config';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ResultsGridComponent } from '../results-grid/results-grid.component';
+import { ButtonConfig } from '../interfaces/button-config';
 
 @Component({
   selector: 'app-card',
@@ -16,9 +13,11 @@ import { ResultsGridComponent } from '../results-grid/results-grid.component';
   styleUrl: './card.component.scss',
 })
 export class CardComponent implements OnInit {
-  @Input() config!: Signal<DefaultCardConfig | InputCardConfig | GridCardConfig>;
+  @Input() config!: Signal<CardConfig>;
 
   form!: FormGroup;
+  buttonConfig!: ButtonConfig;
+
   onSubmit!: () => void;
 
   ngOnInit(): void {
@@ -29,9 +28,13 @@ export class CardComponent implements OnInit {
 
       this.onSubmit = () => {
         const userInput = this.form.value.userInput || '';
-
         this.config().submitAction!(userInput);
       };
     }
+
+    this.buttonConfig = this.config().buttonConfig || {
+      type: 'submit',
+      text: 'Submit',
+    };
   }
 }

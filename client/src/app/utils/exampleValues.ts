@@ -15,15 +15,15 @@ export const EXAMPLE_ROW_DATA_SINGLE = [
 
 export const EXAMPLE_ROW_DATA_ARRAY = [
   {
-    handlowiec: 'Grzybowski Grzegorz (GGG2)',
-    total_profit: '642201.9240700',
+    handlowiec: 'Nowak Mciej (563)',
+    total_profit: '125443.9240700',
   },
   {
-    handlowiec: 'Hawliczek Roman (HRR1)',
-    total_profit: '551854.8967300',
+    handlowiec: 'Roman Kot (456)',
+    total_profit: '5523441854.8967300',
   },
   {
-    handlowiec: 'Wojciechowski Piotr (WPM11)',
-    total_profit: '480345.9563100',
+    handlowiec: 'Kowalski Piotr (453)',
+    total_profit: '480234345.9563100',
   },
 ];

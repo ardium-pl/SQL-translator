@@ -12,15 +12,16 @@
       />
 
       <div class="button-container">
-        <app-button
-          [config]="config().buttonConfig || { type: 'submit', text: 'Submit' }"
-        />
+        <app-button [config]="buttonConfig" />
       </div>
     </form>
 
     } @else if (config().type === 'grid') {
 
-      <app-results-grid class="card-content" />
+    <app-results-grid class="card-content" />
+    <div class="button-container">
+      <app-button [config]="buttonConfig" />
+    </div>
 
     } @else {
 

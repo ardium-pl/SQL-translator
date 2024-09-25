@@ -8,11 +8,7 @@ import { ButtonComponent } from './button/button.component';
 import { DataFetchingService } from './services/data-fetching.service';
 import { inject } from '@angular/core';
 import { EXAMPLE_USER_QUERY } from './utils/exampleValues';
-import {
-  DefaultCardConfig,
-  InputCardConfig,
-  GridCardConfig,
-} from './interfaces/card-config';
+import { CardConfig } from './interfaces/card-config';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +29,7 @@ export class AppComponent {
 
   title = 'SQL-translator';
 
-  queryCardConfig: Signal<InputCardConfig> = computed((): InputCardConfig => {
+  queryCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
       type: 'input',
       title: 'Zapytanie do bazy danych',
@@ -53,31 +49,27 @@ export class AppComponent {
     };
   });
 
-  aiAnswerCardConfig: Signal<DefaultCardConfig> = computed(
-    (): DefaultCardConfig => {
-      return {
-        type: 'default',
-        title: 'Odpowiedź Asystenta',
-        placeholderText: this.dataFetchingService.formattedAnswer(),
-      };
-    }
-  );
+  aiAnswerCardConfig: Signal<CardConfig> = computed((): CardConfig => {
+    return {
+      type: 'default',
+      title: 'Odpowiedź Asystenta',
+      placeholderText: this.dataFetchingService.formattedAnswer(),
+    };
+  });
 
-  sqlStatementCardConfig: Signal<DefaultCardConfig> = computed(
-    (): DefaultCardConfig => {
-      return {
-        type: 'default',
-        title: 'Tłumaczenie SQL',
-        placeholderText: this.dataFetchingService.sqlStatement(),
-      };
-    }
-  );
+  sqlStatementCardConfig: Signal<CardConfig> = computed((): CardConfig => {
+    return {
+      type: 'default',
+      title: 'Tłumaczenie SQL',
+      placeholderText: this.dataFetchingService.sqlStatement(),
+    };
+  });
 
-  gridCardConfig: Signal<GridCardConfig> = computed((): GridCardConfig => {
+  gridCardConfig: Signal<CardConfig> = computed((): CardConfig => {
     return {
       type: 'grid',
       title: 'Dane z bazy',
-        buttonConfig: {
+      buttonConfig: {
         type: 'text',
         text: 'Powrót',
       },
