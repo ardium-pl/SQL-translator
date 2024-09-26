@@ -12,6 +12,9 @@
       ></textarea>
 
       <div class="button-container">
+        @if (this.dataFetchingService.isLoading()) {
+        <div class="custom-spinner"></div>
+        }
         <app-button [config]="buttonConfig" />
       </div>
     </form>
@@ -32,5 +35,3 @@
     }
   </div>
 </div>
-
-<!-- (ngSubmit)="config.onSubmit ? config.onSubmit() : null" -->

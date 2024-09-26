@@ -15,6 +15,7 @@ import { RowMYSQL } from '../interfaces/row-mysql';
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
+  readonly isLoading = signal<boolean>(false);
   readonly userInput = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
@@ -22,6 +23,7 @@ export class DataFetchingService {
 
   fetchAiAnswers(userQuery: string): void {
     this.userInput.set(userQuery);
+    this.isLoading.set(true);
 
     console.log('⚙️ Fetching data from backend...');
 
@@ -66,10 +68,12 @@ export class DataFetchingService {
             err
           );
           sub.unsubscribe();
+          this.isLoading.set(false);
           console.log('⚙️ Subscription terminanated by unsubscribing.');
         },
         complete: () => {
           sub.unsubscribe();
+          this.isLoading.set(false);
           console.log('⚙️ Subscription terminanated by unsubscribing.');
         },
       });

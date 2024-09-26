@@ -1,19 +1,25 @@
-import { Component, Input, OnInit, Signal } from '@angular/core';
+import { Component, inject, Input, OnInit, Signal } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { CardConfig } from '../interfaces/card-config';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ResultsGridComponent } from '../results-grid/results-grid.component';
 import { ButtonConfig } from '../interfaces/button-config';
+import { DataFetchingService } from '../services/data-fetching.service';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [ButtonComponent, ReactiveFormsModule, ResultsGridComponent],
+  imports: [
+    ButtonComponent,
+    ReactiveFormsModule,
+    ResultsGridComponent,
+  ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
 export class CardComponent implements OnInit {
   @Input() config!: Signal<CardConfig>;
+  readonly dataFetchingService = inject(DataFetchingService);
 
   form!: FormGroup;
   buttonConfig!: ButtonConfig;

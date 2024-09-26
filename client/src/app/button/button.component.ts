@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { ButtonConfig } from '../interfaces/button-config';
+import { DataFetchingService } from '../services/data-fetching.service';
 
 @Component({
   selector: 'app-button',
@@ -10,4 +11,5 @@ import { ButtonConfig } from '../interfaces/button-config';
 })
 export class ButtonComponent {
   @Input() config!: ButtonConfig;
+  readonly dataFetchingService = inject(DataFetchingService);
 }
