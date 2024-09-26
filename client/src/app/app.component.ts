@@ -33,7 +33,7 @@ export class AppComponent {
     return {
       type: 'input',
       title: 'Zapytanie do bazy danych',
-      placeholderText: EXAMPLE_USER_QUERY,
+      placeholderText: this.dataFetchingService.userInput(),
       buttonConfig: {
         type: 'submit',
         text: 'Zatwierdź',

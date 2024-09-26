@@ -6,6 +6,7 @@ import {
   EXAMPLE_FORMATTED_ANSWER,
   EXAMPLE_SQL_STATEMENT,
   EXAMPLE_ROW_DATA_ARRAY,
+  EXAMPLE_USER_QUERY,
 } from '../utils/exampleValues';
 import { RowMYSQL } from '../interfaces/row-mysql';
 
@@ -14,11 +15,14 @@ import { RowMYSQL } from '../interfaces/row-mysql';
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
+  readonly userInput = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
 
   fetchAiAnswers(userQuery: string): void {
+    this.userInput.set(userQuery);
+
     console.log('⚙️ Fetching data from backend...');
 
     const payload: ReqeustPayload = { query: userQuery };
