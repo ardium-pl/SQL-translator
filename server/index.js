@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import {
   generateGPTAnswer,
   sqlResponse,
@@ -12,26 +13,29 @@ import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 
-// Authorization middleware
-app.use((req, res, next) => {
-  loggerMain.info("📩 Received a new POST request.");
-
-  const apiKey = process.env.API_KEY;
-  const userApiKey = req.headers["x-api-key"];
-
-  if (userApiKey !== apiKey) {
-    loggerMain.warn(
-      `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
-    );
-    res.status(403).json({ message: "Forbidden: Invalid API Key" });
-  } else {
-    next();
-  }
-});
-
 app.use(express.json());
+app.use(cors());
+
+// Authorization middleware
+// app.use((req, res, next) => {
+// loggerMain.info("📩 Received a new POST request.");
+
+//   const apiKey = process.env.API_KEY;
+//   const userApiKey = req.headers["x-api-key"];
+
+//   if (userApiKey !== apiKey) {
+//     loggerMain.warn(
+//       `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
+//     );
+//     res.status(403).json({ message: "Forbidden: Invalid API Key" });
+//   } else {
+//     next();
+//   }
+// });
 
 app.post("/language-to-sql", async (req, res) => {
+  loggerMain.info("📩 Received a new POST request.");
+
   const userQuery = req.body?.query;
   // console.log(promptForSQL(userQuery));
 
