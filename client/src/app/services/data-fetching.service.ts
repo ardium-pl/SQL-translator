@@ -20,10 +20,12 @@ export class DataFetchingService {
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
+  readonly errorMessage = signal<string>('');
 
   fetchAiAnswers(userQuery: string): void {
     this.userInput.set(userQuery);
     this.isLoading.set(true);
+    this.errorMessage.set('');
 
     console.log('⚙️ Fetching data from backend...');
 
@@ -40,7 +42,7 @@ export class DataFetchingService {
           console.log('✅ HTTP response received sucessfully!');
           try {
             // console.log(`🫃 Response content:`, JSON.stringify(res, null, 2));
-            const receivedMessage = res.message;
+            const receivedMessage = res.message || '';
             const receivedSqlStatement = res.sqlStatement || '';
             const receivedFormattedAnswer = res.formattedAnswer || '';
             const receivedRawData = res.rawData || [];
@@ -52,6 +54,7 @@ export class DataFetchingService {
               `💠 Row Data: ${JSON.stringify(receivedRawData, null, 2)}`
             );
 
+            this.errorMessage.set(receivedMessage);
             this.rowData.set(receivedRawData);
             this.sqlStatement.set(receivedSqlStatement);
             this.formattedAnswer.set(receivedFormattedAnswer);
@@ -60,6 +63,7 @@ export class DataFetchingService {
               '❌📖 Error reading response body, error message:',
               err
             );
+            this.errorMessage.set('Nie udało się odczytać danych z serwera.');
           }
         },
         error: (err) => {
@@ -69,6 +73,7 @@ export class DataFetchingService {
           );
           sub.unsubscribe();
           this.isLoading.set(false);
+          this.errorMessage.set('Nie udało się połączyć z serwerem.');
           console.log('⚙️ Subscription terminanated by unsubscribing.');
         },
         complete: () => {

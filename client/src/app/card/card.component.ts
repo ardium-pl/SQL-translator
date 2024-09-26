@@ -1,4 +1,5 @@
 import { Component, inject, Input, OnInit, Signal } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { ButtonComponent } from '../button/button.component';
 import { CardConfig } from '../interfaces/card-config';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import { DataFetchingService } from '../services/data-fetching.service';
     ButtonComponent,
     ReactiveFormsModule,
     ResultsGridComponent,
+    NgClass,
   ],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',

@@ -79,12 +79,29 @@ app-results-grid {
   border: none;
   border-radius: var(--md-corner-small, 0.5rem);
   background: var(--md-sys-color-surface-container-high, #ece6f0);
+
+  &:not(:focus).error {
+    box-shadow: inset 0 0 0 0.12rem var(--md-sys-color-error);
+  }
 }
 
-.button-container {
+.bottom-row-container {
   display: flex;
   align-self: stretch;
   justify-content: flex-end;
-  align-items: center;
   gap: 0.8rem;
+
+  .error-container {
+    flex: 1;
+    @include m3-label-medium;
+    padding: 0.26rem 0.5rem;
+    color: var(--md-sys-color-error);
+    border-radius: var(--md-corner-small);
+    background-color: var(--md-sys-color-error-container);
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center;
+  }
 }
