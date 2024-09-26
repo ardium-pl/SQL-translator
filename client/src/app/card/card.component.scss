@@ -26,6 +26,12 @@
   background: var(--md-sys-color-surface-bright, #fef7ff);
 }
 
+::ng-deep {
+  .bold {
+    @include m3-title-medium;
+  }
+}
+
 .card-body,
 .form {
   display: flex;
@@ -37,7 +43,7 @@
 
 .card-title {
   @include m3-title-medium;
-  color: var(--md-sys-on-surface);
+  color: var(--md-sys-color-on-surface);
 }
 
 textarea {
@@ -70,12 +76,12 @@ app-results-grid {
 }
 
 .card-content {
-  // white-space: pre-wrap;
+  white-space: pre-wrap;
   max-height: 7.2rem;
   overflow: auto;
   padding: 0.5rem 0.625rem;
   @include m3-body-large;
-  color: var(--md-sys-on-surface);
+  color: var(--md-sys-color-on-surface);
   border: none;
   border-radius: var(--md-corner-small, 0.5rem);
   background: var(--md-sys-color-surface-container-high, #ece6f0);

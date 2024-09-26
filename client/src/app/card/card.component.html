@@ -36,8 +36,8 @@
 
     } @else {
 
-    <div class="card-content">
-      {{ config().placeholderText }}
+    <div class="card-content" [innerHTML]="config().placeholderText">
+      <!-- {{ config().placeholderText }} -->
     </div>
 
     }

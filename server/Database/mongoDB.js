@@ -15,8 +15,7 @@ async function mongoRetrieveOne(database, collection, client) {
     const coll = db.collection(collection);
 
     const filter = {
-      schemaVersion:
-        "withExampleDistinctValuesProperColumnDescriptions",
+      schemaVersion: "withExampleDistinctValuesProperColumnDescriptions",
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
@@ -61,7 +60,7 @@ export async function loadDbInformation() {
   try {
     client = new MongoClient(MONGO_CONNECTION_STRING);
 
-    const dbSchemaWithExamples = await mongoRetrieveOne(
+    const dbSchema = await mongoRetrieveOne(
       MONGO_DATABASE,
       MONGO_COLLECTION_SCHEMAS,
       client
@@ -74,7 +73,7 @@ export async function loadDbInformation() {
 
     loggerMongoDB.info("Successfully loaded database information! ✅");
     return {
-      dbSchemaWithExamples: dbSchemaWithExamples,
+      dbSchema: dbSchema,
       examplesForSQL: examplesForSQL,
     };
   } catch (error) {
@@ -84,7 +83,7 @@ export async function loadDbInformation() {
     loggerMongoDB.error(error);
 
     return {
-      dbSchemaWithExamples: null,
+      dbSchema: null,
       examplesForSQL: [],
     };
   } finally {
