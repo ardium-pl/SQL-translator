@@ -84,18 +84,4 @@ export class AppComponent {
     text: 'Przejdź do tabeli rezultatów',
     onClick: () => this.displayGrid.set(true),
   };
-
-  // queryForm = new FormGroup({
-  //   userInput: new FormControl(EXAMPLE_USER_QUERY),
-  // });
-
-  // onSubmit() {
-  //   const userInput = this.queryForm.value.userInput || '';
-  //   if (!userInput) {
-  //     console.log('🖊️ User input empty, short-circuiting...');
-  //   } else {
-  //     console.log(`🖊️ User input: ${JSON.stringify(userInput, null, 4)}`);
-  //     this.dataFetchingService.fetchAiAnswers(userInput);
-  //   }
-  // }
 }
