@@ -33,8 +33,10 @@
     } @else if (config().type === 'grid') {
 
     <app-results-grid />
-    <div class="button-container">
-      <app-button [config]="buttonConfig" />
+    <div class="bottom-row-container">
+      <div class="button-container">
+        <app-button [config]="buttonConfig" />
+      </div>
     </div>
 
     } @else {
