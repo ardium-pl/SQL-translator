@@ -69,14 +69,14 @@ textarea {
   }
 }
 
-.card-content,
 app-results-grid {
-  min-height: 5.5rem;
   align-self: stretch;
 }
 
 .card-content {
+  align-self: stretch;
   white-space: pre-wrap;
+  min-height: 5.5rem;
   max-height: 7.2rem;
   overflow: auto;
   padding: 0.5rem 0.625rem;
@@ -89,6 +89,11 @@ app-results-grid {
   &:not(:focus).error {
     box-shadow: inset 0 0 0 0.12rem var(--md-sys-color-error);
   }
+
+  &.expanded-on-init {
+     min-height: 7.2rem;
+  }
+  
 }
 
 .bottom-row-container {

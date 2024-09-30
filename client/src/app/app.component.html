@@ -15,15 +15,17 @@
     <!-- Zapytanie do bazy danych -->
     <app-card [config]="queryCardConfig" />
 
+    @if (!this.dataFetchingService.isFirstAppOpen()) {
     <!-- Odpowiedź Asystenta -->
     <app-card [config]="aiAnswerCardConfig" />
 
     <!-- Tłumaczenie SQL -->
     <app-card [config]="sqlStatementCardConfig" />
-    }
+    } }
   </div>
 
-  @if (this.dataFetchingService.rowData().length > 1 && !displayGrid()) {
+  @if (this.dataFetchingService.rowData().length > 1 && !displayGrid() &&
+  !this.dataFetchingService.isFirstAppOpen()) {
   <div class="button-container">
     <app-button [config]="showGridButtonConfig" />
   </div>

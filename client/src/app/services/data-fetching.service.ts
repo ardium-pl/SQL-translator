@@ -16,6 +16,7 @@ import { RowMYSQL } from '../interfaces/row-mysql';
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
   readonly isLoading = signal<boolean>(false);
+  readonly isFirstAppOpen = signal<boolean>(true);
   readonly userInput = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
@@ -58,6 +59,7 @@ export class DataFetchingService {
             this.rowData.set(receivedRawData);
             this.sqlStatement.set(receivedSqlStatement);
             this.formattedAnswer.set(receivedFormattedAnswer);
+            this.isFirstAppOpen.set(false);
           } catch (err) {
             console.log(
               '❌📖 Error reading response body, error message:',

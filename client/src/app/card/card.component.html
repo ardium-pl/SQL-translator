@@ -8,7 +8,10 @@
         formControlName="userInput"
         type="text"
         class="card-content"
-        [ngClass]="this.dataFetchingService.errorMessage() ? 'error' : ''"
+        [ngClass]="{
+          error: this.dataFetchingService.errorMessage(),
+          'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
+        }"
         placeholder=""
       ></textarea>
 
