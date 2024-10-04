@@ -1,50 +1,6 @@
 <div class="card">
-  <h3 class="card-title">{{ config().title }}</h3>
+  <h3 class="card-title">{{ title() }}</h3>
   <div class="card-body">
-    @if (config().type === 'input') {
-
-    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <textarea
-        formControlName="userInput"
-        type="text"
-        class="card-content"
-        [ngClass]="{
-          error: this.dataFetchingService.errorMessage(),
-          'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
-        }"
-        placeholder=""
-      ></textarea>
-
-      <div class="bottom-row-container">
-        @if (this.dataFetchingService.isLoading()) {
-        <div class="custom-spinner"></div>
-        } @if (this.dataFetchingService.errorMessage()) {
-        <div class="error-container">
-          <b>Błąd:</b> {{ this.dataFetchingService.errorMessage() }}
-        </div>
-        }
-
-        <div class="button-container">
-          <app-button [config]="buttonConfig" />
-        </div>
-      </div>
-    </form>
-
-    } @else if (config().type === 'grid') {
-
-    <app-results-grid />
-    <div class="bottom-row-container">
-      <div class="button-container">
-        <app-button [config]="buttonConfig" />
-      </div>
-    </div>
-
-    } @else {
-
-    <div class="card-content" [innerHTML]="config().placeholderText">
-      <!-- {{ config().placeholderText }} -->
-    </div>
-
-    }
+    <ng-content></ng-content>
   </div>
 </div>

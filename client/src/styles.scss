@@ -1,13 +1,14 @@
-@import "./design-system/typography/typography.scss";
-@import "./design-system/shape/shape.scss";
-@import "./design-system/themes/light.scss";
+// Angular Material theme reset should be imported before the import of root level CSS variables
+@import "design-system/angular-material-theme-reset";
+@import "design-system/shape/shape";
+@import "design-system/themes/light";
+@import "design-system/typography/typography";
+@import "design-system/typography/typography_mixins";
 // AG Grid theme imports
-@import 'ag-grid-community/styles/ag-grid.css';
-@import 'ag-grid-community/styles/ag-theme-material.css';
-@import 'ag-grid-community/styles/ag-theme-alpine.css';
-@import 'ag-grid-community/styles/ag-theme-quartz.css';
-
-
+@import "ag-grid-community/styles/ag-grid.css";
+@import "ag-grid-community/styles/ag-theme-material.css";
+@import "ag-grid-community/styles/ag-theme-alpine.css";
+@import "ag-grid-community/styles/ag-theme-quartz.css";
 
 html,
 body {
@@ -17,7 +18,7 @@ body {
   padding: 0;
   min-height: 100vh;
   min-width: 100vw;
-  background: var(--md-sys-color-surface);
+  background: var(--sys-surface);
 }
 
 body {
@@ -25,4 +26,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+h1,
+h2,
+h3 {
+  all: unset;
 }

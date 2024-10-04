@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { DataFetchingService } from '../services/data-fetching.service';
@@ -13,10 +13,10 @@ import { DataFetchingService } from '../services/data-fetching.service';
 export class ResultsGridComponent {
   readonly dataFetchingService = inject(DataFetchingService);
 
-  rowData = this.dataFetchingService.rowData
-  colDefs = computed<ColDef[]>((): ColDef[] => {
-    console.log("⚙️ Updating column definitions ...")
-    const columnNames = Object.keys(this.dataFetchingService.rowData()[0]);
+  readonly rowData = this.dataFetchingService.rowData;
+  readonly colDefs = computed<ColDef[]>((): ColDef[] => {
+    console.log('⚙️ Updating column definitions ...');
+    const columnNames = Object.keys(this.rowData()[0]);
     const colDefs = columnNames.map((name) => ({
       field: name,
     }));
