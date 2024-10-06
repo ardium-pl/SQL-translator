@@ -50,28 +50,11 @@
   gap: 0.7rem;
 }
 
-textarea {
-  resize: none;
-  white-space: pre-wrap;
-  height: 5rem;
-  overflow: auto;
-  padding: 0.5rem 0.625rem;
-  @include m3-body-large;
-  color: var(--sys-on-surface);
-  border: none;
-  border-radius: var(--m3-corner-small);
-  background: var(--sys-surface-container-high);
-
-  &:focus {
-    outline: 0.125rem solid var(--sys-on-surface);
-  }
-
-  &:not(:focus).error {
-    outline: 0.125rem solid var(--sys-error);
-  }
+app-card-input {
+  height: 6rem;
 
   &.expanded-on-init {
-    min-height: 6.5rem;
+    min-height: 7.5rem;
   }
 }
 

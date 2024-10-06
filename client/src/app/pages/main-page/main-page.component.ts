@@ -3,6 +3,7 @@ import { NgClass } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '../../components/button/button.component';
+import { CardInputComponent } from '../../components/card/card-input/card-input.component';
 import { CardTextContentComponent } from '../../components/card/card-text-content/card-text-content.component';
 import { CardComponent } from '../../components/card/card.component';
 import { ResultsGridComponent } from '../../components/results-grid/results-grid.component';
@@ -19,6 +20,7 @@ import { DataFetchingService } from '../../services/data-fetching.service';
     ResultsGridComponent,
     ReactiveFormsModule,
     CardTextContentComponent,
+    CardInputComponent,
   ],
   templateUrl: './main-page.component.html',
   styleUrl: './main-page.component.scss',
@@ -26,12 +28,12 @@ import { DataFetchingService } from '../../services/data-fetching.service';
 export class MainPageComponent {
   readonly dataFetchingService = inject(DataFetchingService);
   readonly displayGrid = signal(false);
-  readonly form = new FormGroup({
-    userInput: new FormControl(this.dataFetchingService.userInput()),
+  readonly zapytanieForm = new FormGroup({
+    zapytanieInput: new FormControl(this.dataFetchingService.zapytanieInput()),
   });
 
   submitQuery() {
-    const userInput = this.form.value.userInput || '';
+    const userInput = this.zapytanieForm.value.zapytanieInput || '';
     if (!userInput) {
       console.log('🖊️ User input empty, short-circuiting...');
     } else {

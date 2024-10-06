@@ -17,14 +17,14 @@ export class DataFetchingService {
   private readonly http = inject(HttpClient);
   readonly isLoading = signal<boolean>(false);
   readonly isFirstAppOpen = signal<boolean>(true);
-  readonly userInput = signal<string>(EXAMPLE_USER_QUERY);
+  readonly zapytanieInput = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
   readonly errorMessage = signal<string>('');
 
   fetchAiAnswers(userQuery: string): void {
-    this.userInput.set(userQuery);
+    this.zapytanieInput.set(userQuery);
     this.isLoading.set(true);
     this.errorMessage.set('');
 

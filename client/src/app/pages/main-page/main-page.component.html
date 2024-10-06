@@ -19,16 +19,14 @@
 
     <!-- Zapytanie do bazy danych -->
     <app-card title="Zapytanie do bazy danych">
-      <form class="form" [formGroup]="form" (ngSubmit)="submitQuery()">
-        <textarea
-          formControlName="userInput"
-          type="text"
-          class="card-content"
-          [ngClass]="{
-            error: this.dataFetchingService.errorMessage(),
-            'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
-          }"
-        ></textarea>
+      <form class="form" [formGroup]="zapytanieForm" (ngSubmit)="submitQuery()">
+        <app-card-input
+          [inheritedFormControl]="zapytanieForm.controls.zapytanieInput"
+          [errorState]="this.dataFetchingService.errorMessage()"
+          [ngClass]="
+            this.dataFetchingService.isFirstAppOpen() ? 'expanded-on-init' : ''
+          "
+        ></app-card-input>
 
         <div class="bottom-row-container">
           @if (this.dataFetchingService.isLoading()) {
