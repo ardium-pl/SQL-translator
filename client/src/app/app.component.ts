@@ -1,10 +1,10 @@
 import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { CardComponent } from './card/card.component';
+import { CardComponent } from './components/card/card.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CardTextContentComponent } from './card/card-text-content/card-text-content.component';
-import { ButtonComponent } from './button/button.component';
-import { ResultsGridComponent } from './results-grid/results-grid.component';
+import { CardTextContentComponent } from './components/card/card-text-content/card-text-content.component';
+import { ButtonComponent } from './components/button/button.component';
+import { ResultsGridComponent } from './components/results-grid/results-grid.component';
 import { DataFetchingService } from './services/data-fetching.service';
 import { NgClass } from '@angular/common';
 

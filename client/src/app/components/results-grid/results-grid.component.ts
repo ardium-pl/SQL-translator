@@ -1,7 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
-import { DataFetchingService } from '../services/data-fetching.service';
+import { DataFetchingService } from '../../services/data-fetching.service';
 
 @Component({
   selector: 'app-results-grid',
