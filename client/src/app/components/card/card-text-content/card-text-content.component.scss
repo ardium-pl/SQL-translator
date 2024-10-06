@@ -3,11 +3,11 @@
 :host {
   display: block;
   white-space: pre-wrap;
-  min-height: 5.5rem;
-  max-height: 7.2rem;
+  min-height: 5rem;
+  max-height: 7.5rem;
   overflow: auto;
   padding: 0.5rem 0.625rem;
-  @include m3-body-large;
+  @include m3-body-medium;
   color: var(--sys-on-surface);
   border: none;
   border-radius: var(--m3-corner-small);
@@ -17,6 +17,6 @@
 // Strings being the part of the response have crucial information wrapped in <div class="bold"></div>
 ::ng-deep {
   .bold {
-    @include m3-title-medium;
+    @include m3-title-small;
   }
 }
