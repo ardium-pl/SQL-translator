@@ -62,8 +62,12 @@ textarea {
   border-radius: var(--m3-corner-small);
   background: var(--sys-surface-container-high);
 
+  &:focus {
+    outline: 0.125rem solid var(--sys-on-surface);
+  }
+
   &:not(:focus).error {
-    box-shadow: inset 0 0 0 0.12rem var(--sys-error);
+    outline: 0.125rem solid var(--sys-error);
   }
 
   &.expanded-on-init {
