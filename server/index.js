@@ -8,30 +8,49 @@ import {
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
 import { executeSQL } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
+import { JWTverificator } from "./Utils/middleware.js";
+import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
+
+// Secret key for signing JWT
+const JWT_SECRET = process.env.JWT_SECRET;
+const PASSWORD = process.env.PASSWORD;
+
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-// Authorization middleware
-// app.use((req, res, next) => {
-// loggerMain.info("📩 Received a new POST request.");
+// Login route to handle password verification and token generation
+app.post("/login", async (req, res) => {
+  loggerMain.info("🛅 Received a new login attempt.");
 
-//   const apiKey = process.env.API_KEY;
-//   const userApiKey = req.headers["x-api-key"];
+  const userPassword = req.body?.password;
+  loggerMain.info(`🔑 Password received in request header: ${userPassword}`);
 
-//   if (userApiKey !== apiKey) {
-//     loggerMain.warn(
-//       `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
-//     );
-//     res.status(403).json({ message: "Forbidden: Invalid API Key" });
-//   } else {
-//     next();
-//   }
-// });
+  if (userPassword === PASSWORD) {
+    loggerMain.info(`✅ Password correct.`);
+
+    // Generate a JWT token valid for 1 hour
+    // Default headers: { "alg": "HS256", "typ": "JWT" } Claims on payload: { "iat": xxx, "exp": xxx }
+    const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: "1h" });
+    loggerMain.info(`Generated JWT token: ${JWTtoken}`);
+
+    res.status(200).json({ status: "success", token: JWTtoken });
+  } else {
+    loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
+    res.status(401).json({ status: "error", message: "Invalid password" });
+  }
+});
+
+app.get("/test", JWTverificator, async (req, res) => {
+  loggerMain.info("📩 [/test] Received a new GET request.");
+  res
+    .status(200)
+    .json({ status: "success", message: "Welcome, you passed the test!" });
+});
 
 app.post("/language-to-sql", async (req, res) => {
   loggerMain.info("📩 Received a new POST request.");
