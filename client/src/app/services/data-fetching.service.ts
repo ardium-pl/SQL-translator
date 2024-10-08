@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiUrl } from '../utils/apiUrl';
-import { ReqeustPayload } from '../interfaces/reqeust-payload';
+import { QueryPayload } from '../interfaces/reqeust-payloads';
 import {
   EXAMPLE_FORMATTED_ANSWER,
   EXAMPLE_SQL_STATEMENT,
@@ -30,13 +30,9 @@ export class DataFetchingService {
 
     console.log('⚙️ Fetching data from backend...');
 
-    const payload: ReqeustPayload = { query: userQuery };
+    const payload: QueryPayload = { query: userQuery };
     const sub = this.http
-      .post<any>(apiUrl('/language-to-sql'), payload, {
-        headers: {
-          'x-api-key': 'our-api-key',
-        },
-      })
+      .post<any>(apiUrl('/language-to-sql'), payload)
       .subscribe({
         next: (res) => {
           // console.log('✅ Response received sucessfully, response body: ', res);
@@ -65,7 +61,7 @@ export class DataFetchingService {
               '❌📖 Error reading response body, error message:',
               err
             );
-            this.errorMessage.set('Nie udało się odczytać danych z serwera.');
+            this.errorMessage.set('Nie udało się odczytać danych otrzymanych z serwera.');
           }
         },
         error: (err) => {
