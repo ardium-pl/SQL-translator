@@ -1,8 +1,3 @@
-<div class="titles-container">
-  <h1 class="title-main">Eksplorator bazy danych 2.0</h1>
-  <h2 class="subtitle">BUDMAT</h2>
-</div>
-
 <div class="main-container">
   <div class="cards-container">
     @if (displayGrid()) {
@@ -20,13 +15,22 @@
     <!-- Zapytanie do bazy danych -->
     <app-card title="Zapytanie do bazy danych">
       <form class="form" [formGroup]="zapytanieForm" (ngSubmit)="submitQuery()">
-        <app-card-input
+        <textarea
+          type="text"
+          formControlName="zapytanieInput"
+          [ngClass]="{
+            error: this.dataFetchingService.errorMessage(),
+            'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
+          }"
+        ></textarea>
+
+        <!-- <app-card-input
           [inheritedFormControl]="zapytanieForm.controls.zapytanieInput"
           [errorState]="this.dataFetchingService.errorMessage()"
           [ngClass]="
             this.dataFetchingService.isFirstAppOpen() ? 'expanded-on-init' : ''
           "
-        ></app-card-input>
+        ></app-card-input> -->
 
         <div class="bottom-row-container">
           @if (this.dataFetchingService.isLoading()) {

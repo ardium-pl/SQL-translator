@@ -1,0 +1,23 @@
+<div class="main-container">
+  <div class="welcome-message">
+    <h4>
+      Witaj! Niniejsza aplikacja umożliwia wyszukiwanie informacji w bazie
+      danych BUDMAT za pomocą zapytań w języku naturalnym. Wprowadź klucz
+      dostępu, aby rozpocząć.
+    </h4>
+  </div>
+
+  <div class="cards-container">
+    <app-card title="Klucz dostępu">
+      <form class="form" [formGroup]="loginForm" (ngSubmit)="submitPassword()">
+        <input type="password" formControlName="passwordInput" />
+
+        <div class="bottom-row-container">
+          <div class="button-container">
+            <app-button type="submit">Zatwierdź</app-button>
+          </div>
+        </div>
+      </form>
+    </app-card>
+  </div>
+</div>

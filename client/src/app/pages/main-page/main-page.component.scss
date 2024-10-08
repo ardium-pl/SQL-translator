@@ -1,39 +1,17 @@
 @import "./../../../design-system/typography/typography_mixins";
 
-:host {
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  border-radius: var(--m3-corner-large);
+.main-container {
   min-width: 15rem;
   width: 42vw;
   max-width: 43rem;
-}
 
-.titles-container {
-  display: flex;
-  padding: 0 0.7rem;
-  flex-direction: column;
-}
-
-.title-main {
-  @include m3-headline-small;
-  color: var(--sys-on-surface);
-}
-
-.subtitle {
-  @include m3-title-medium;
-  color: var(--sys-on-surface);
-}
-
-.main-container {
   display: flex;
   padding: 0.7rem;
   box-sizing: border-box;
   flex-direction: column;
   gap: 1.2rem;
 
-  border-radius: inherit;
+  border-radius: var(--m3-corner-large);
   background: var(--sys-surface-container-high);
 }
 
@@ -50,11 +28,11 @@
   gap: 0.7rem;
 }
 
-app-card-input {
+textarea {
   height: 6rem;
 
   &.expanded-on-init {
-    min-height: 7.5rem;
+    height: 7.5rem;
   }
 }
 

@@ -30,6 +30,29 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4 {
   all: unset;
+}
+
+input,
+textarea {
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  overflow: auto;
+  resize: none;
+  padding: 0.5rem 0.625rem;
+  @include m3-body-large;
+  color: var(--sys-on-surface);
+  border: none;
+  border-radius: var(--m3-corner-small);
+  background: var(--sys-surface-container-high);
+
+  &:focus {
+    outline: 0.125rem solid var(--sys-on-surface);
+  }
+
+  &:not(:focus).error {
+    outline: 0.125rem solid var(--sys-error);
+  }
 }
