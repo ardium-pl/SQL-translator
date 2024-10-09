@@ -41,6 +41,11 @@ input {
   justify-content: flex-end;
   gap: 0.7rem;
 
+  app-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
   .error-container {
     flex: 1;
     @include m3-label-medium;

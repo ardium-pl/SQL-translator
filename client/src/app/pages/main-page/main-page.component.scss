@@ -36,16 +36,6 @@ textarea {
   }
 }
 
-.custom-spinner {
-  width: 2.5rem;
-  height: 2.5rem;
-  border: 0.35rem solid rgba(0, 0, 0, 0.1);
-  border-top: 0.35rem solid var(--sys-primary);
-  border-radius: 50%;
-  animation: spin 1s ease-in infinite;
-  box-sizing: border-box;
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -59,6 +49,11 @@ textarea {
   display: flex;
   justify-content: flex-end;
   gap: 0.7rem;
+
+  app-spinner {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 
   .error-container {
     flex: 1;

@@ -33,12 +33,12 @@
         ></app-card-input> -->
 
         <div class="bottom-row-container">
-          @if (this.dataFetchingService.isLoading()) {
-          <div class="custom-spinner"></div>
-          } @if (this.dataFetchingService.errorMessage()) {
+          @if (this.dataFetchingService.errorMessage()) {
           <div class="error-container">
             <b>Błąd:</b> {{ this.dataFetchingService.errorMessage() }}
           </div>
+          } @if (this.dataFetchingService.isLoading()) {
+          <app-spinner />
           }
 
           <div class="button-container">

@@ -10,9 +10,23 @@
   <div class="cards-container">
     <app-card title="Klucz dostępu">
       <form class="form" [formGroup]="loginForm" (ngSubmit)="submitPassword()">
-        <input type="password" formControlName="passwordInput" />
+        <input
+          type="password"
+          formControlName="passwordInput"
+          [ngClass]="{
+            error: this.authService.errorMessage(),
+          }"
+        />
 
         <div class="bottom-row-container">
+          @if (this.authService.errorMessage()) {
+          <div class="error-container">
+            <b>Błąd:</b> {{ this.authService.errorMessage() }}
+          </div>
+          } @if (this.authService.isLoading()) {
+          <app-spinner />
+          }
+
           <div class="button-container">
             <app-button type="submit">Zatwierdź</app-button>
           </div>

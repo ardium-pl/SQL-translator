@@ -11,9 +11,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  readonly isLoading = signal<boolean>(false);
   readonly errorMessage = signal<string>('');
 
   login(userPassword: string): void {
+    this.isLoading.set(true);
     this.errorMessage.set('');
 
     console.log('⚙️ Starting verification...');
@@ -26,6 +28,7 @@ export class AuthService {
           this.persistLoggedInState();
           this.router.navigate(['/']);
         }
+        this.isLoading.set(false);
       },
       error: (err) => {
         console.log(
@@ -45,6 +48,7 @@ export class AuthService {
           // Set a generic error message if there's no JSON body or message
           this.errorMessage.set('Nie udało się połączyć z serwerem.');
         }
+        this.isLoading.set(false);
       },
     });
   }

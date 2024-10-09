@@ -3,6 +3,7 @@ import { NgClass } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { ButtonComponent } from '../../components/button/button.component';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CardInputComponent } from '../../components/card/card-input/card-input.component';
 import { CardTextContentComponent } from '../../components/card/card-text-content/card-text-content.component';
 import { CardComponent } from '../../components/card/card.component';
@@ -17,6 +18,7 @@ import { DataFetchingService } from '../../services/data-fetching.service';
     NgClass,
     CardComponent,
     ButtonComponent,
+    SpinnerComponent,
     ResultsGridComponent,
     ReactiveFormsModule,
     CardTextContentComponent,
