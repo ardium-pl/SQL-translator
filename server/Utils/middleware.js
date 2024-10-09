@@ -10,8 +10,8 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 // Middleware to verify JWT token
 export function JWTverificator(req, res, next) {
-  const JWTtoken = req.headers["authorization"]?.split(" ")[1]; // Bearer JWTtoken
-  loggerMain.info(`🔑 JWT token received in request header: ${JWTtoken}`);
+  const JWTtoken = req.cookies?.auth_token;
+  loggerMain.info(`🔑 JWT token received in cookie: ${JWTtoken}`);
 
   if (!JWTtoken) {
     loggerMain.warn(`No token provided. Responding with 403 Forbidden.`);

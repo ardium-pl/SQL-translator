@@ -31,53 +31,52 @@ export class DataFetchingService {
     console.log('⚙️ Fetching data from backend...');
 
     const payload: QueryPayload = { query: userQuery };
-    const sub = this.http
-      .post<any>(apiUrl('/language-to-sql'), payload)
+    this.http
+      .post<any>(apiUrl('/language-to-sql'), payload, {
+        withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
+      })
       .subscribe({
         next: (res) => {
-          // console.log('✅ Response received sucessfully, response body: ', res);
           console.log('✅ HTTP response received sucessfully!');
-          try {
-            // console.log(`🫃 Response content:`, JSON.stringify(res, null, 2));
-            const receivedMessage = res.message || '';
-            const receivedSqlStatement = res.sqlStatement || '';
-            const receivedFormattedAnswer = res.formattedAnswer || '';
-            const receivedRawData = res.rawData || [];
 
-            console.log(`💠 Message: ${receivedMessage}`);
-            console.log(`💠 SQL Statement: ${receivedSqlStatement}`);
-            console.log(`💠 Formatted Answer: ${receivedFormattedAnswer}`);
-            console.log(
-              `💠 Row Data: ${JSON.stringify(receivedRawData, null, 2)}`
-            );
+          const { status, message } = res;
+          const receivedSqlStatement = res.sqlStatement || '';
+          const receivedFormattedAnswer = res.formattedAnswer || '';
+          const receivedRawData = res.rawData || [];
 
-            this.errorMessage.set(receivedMessage);
-            this.rowData.set(receivedRawData);
-            this.sqlStatement.set(receivedSqlStatement);
-            this.formattedAnswer.set(receivedFormattedAnswer);
-            this.isFirstAppOpen.set(false);
-          } catch (err) {
-            console.log(
-              '❌📖 Error reading response body, error message:',
-              err
-            );
-            this.errorMessage.set('Nie udało się odczytać danych otrzymanych z serwera.');
+          console.log(`💠 Message: ${message}`);
+          console.log(`💠 SQL Statement: ${receivedSqlStatement}`);
+          console.log(`💠 Formatted Answer: ${receivedFormattedAnswer}`);
+          console.log(
+            `💠 Row Data: ${JSON.stringify(receivedRawData, null, 2)}`
+          );
+
+          this.rowData.set(receivedRawData);
+          this.sqlStatement.set(receivedSqlStatement);
+          this.formattedAnswer.set(receivedFormattedAnswer);
+          this.isFirstAppOpen.set(false);
+
+          if (status === 'error' && message) {
+            // Set error message from the backend
+            this.errorMessage.set(message);
           }
+          this.isLoading.set(false);
         },
         error: (err) => {
           console.log(
             '❌ Error performing the http request, error message:',
             err
           );
-          sub.unsubscribe();
+
+          const { status, message } = err.error;
+          if (status === 'error' && message) {
+            // Set error message from the backend
+            this.errorMessage.set(message);
+          } else {
+            // Set a generic error message if there's no JSON body or message
+            this.errorMessage.set('Nie udało się połączyć z serwerem.');
+          }
           this.isLoading.set(false);
-          this.errorMessage.set('Nie udało się połączyć z serwerem.');
-          console.log('⚙️ Subscription terminanated by unsubscribing.');
-        },
-        complete: () => {
-          sub.unsubscribe();
-          this.isLoading.set(false);
-          console.log('⚙️ Subscription terminanated by unsubscribing.');
         },
       });
   }

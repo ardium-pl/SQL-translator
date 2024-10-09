@@ -11,21 +11,28 @@ import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
 import { JWTverificator } from "./Utils/middleware.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
-// Secret key for signing JWT
 const JWT_SECRET = process.env.JWT_SECRET;
 const PASSWORD = process.env.PASSWORD;
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+//  Access-Control-Allow-Credentials: true & Access-Control-Allow-Origin: XXX headers need to be configured in order for a browser to send cookies to the server in cross-origin context
+app.use(
+  cors({
+    origin: "http://localhost:4200",
+    credentials: true,
+  })
+);
 
 // Login route to handle password verification and token generation
 app.post("/login", async (req, res) => {
-  loggerMain.info("🛅 Received a new login attempt.");
+  loggerMain.info("↘️ Received a new login attempt.");
 
   const userPassword = req.body?.password;
   loggerMain.info(`🔑 Password received in request header: ${userPassword}`);
@@ -38,7 +45,16 @@ app.post("/login", async (req, res) => {
     const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: "1h" });
     loggerMain.info(`Generated JWT token: ${JWTtoken}`);
 
-    res.status(200).json({ status: "success", token: JWTtoken });
+    // Send the JWT token as a HttpOnly, Secure, SameSite cookie
+    res.cookie("auth_token", JWTtoken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 3600000, // 1 hour
+    });
+    res
+      .status(200)
+      .json({ status: "success", message: "Logged in successfully." });
   } else {
     loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
     res.status(401).json({ status: "error", message: "Invalid password" });
@@ -52,14 +68,14 @@ app.get("/test", JWTverificator, async (req, res) => {
     .json({ status: "success", message: "Welcome, you passed the test!" });
 });
 
-app.post("/language-to-sql", async (req, res) => {
+app.post("/language-to-sql", JWTverificator, async (req, res) => {
   loggerMain.info("📩 Received a new POST request.");
 
   const userQuery = req.body?.query;
   // console.log(promptForSQL(userQuery));
 
   if (!userQuery) {
-    res.status(400).json({ message: "No query provided." });
+    res.status(400).json({ status: "error", message: "No query provided." });
 
     return null;
   }
@@ -76,6 +92,7 @@ app.post("/language-to-sql", async (req, res) => {
     if (!sqlAnswer) {
       loggerOpenAI.error("Failed to create the SQL query.");
       res.status(500).json({
+        status: "error",
         message: "An error occured while processing the request.",
       });
 
@@ -90,6 +107,7 @@ app.post("/language-to-sql", async (req, res) => {
     // }
     if (!sqlAnswer.isSelect) {
       res.status(200).json({
+        status: "error",
         message:
           "It seems that you want to perform a query other than SELECT, which I cannot execute.",
         sqlStatement: sqlAnswer.sqlStatement,
@@ -102,6 +120,7 @@ app.post("/language-to-sql", async (req, res) => {
     const rows = await executeSQL(sqlAnswer.sqlStatement);
     if (!rows) {
       res.status(500).json({
+        status: "error",
         message: "Database error. Failed to execute the SQL query.",
         sqlStatement: sqlAnswer.sqlStatement,
       });
@@ -126,6 +145,7 @@ app.post("/language-to-sql", async (req, res) => {
     if (!formattedAnswer) {
       loggerOpenAI.error("Failed to generate the formatted answer.");
       res.status(500).json({
+        status: "error",
         message: "An error occured while processing the request.",
       });
 
@@ -138,16 +158,18 @@ app.post("/language-to-sql", async (req, res) => {
 
     // Send back the response
     res.status(200).json({
+      status: "success",
       question: userQuery,
       sqlStatement: sqlAnswer.sqlStatement,
       formattedAnswer: formattedAnswer.formattedAnswer,
       rawData: rows,
     });
-    loggerMain.info("✅ Successfully processed the request!\n");
+    loggerMain.info("✅ Successfully processed the request!");
   } catch (error) {
     loggerMain.error(error);
     res.status(500).json({
-      message: "An error occured while processing the request.\n",
+      status: "error",
+      message: "An error occured while processing the request.",
     });
   }
 });

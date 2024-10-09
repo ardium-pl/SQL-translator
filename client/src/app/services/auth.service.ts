@@ -21,36 +21,36 @@ export class AuthService {
     console.log('⚙️ Starting verification...');
 
     const payload: AuthPayload = { password: userPassword };
-    this.http.post<any>(apiUrl('/login'), payload).subscribe({
-      next: (res) => {
-        if (res.status === 'success') {
-          console.log(`✅ Verification successful!`);
-          this.persistLoggedInState();
-          this.router.navigate(['/']);
-        }
-        this.isLoading.set(false);
-      },
-      error: (err) => {
-        console.log(
-          '❌ Error performing the http request, error message:',
-          err
-        );
+    this.http
+      .post<any>(apiUrl('/login'), payload, {
+        withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
+      })
+      .subscribe({
+        next: (res) => {
+          if (res.status === 'success') {
+            console.log(`✅ Verification successful!`);
+            this.persistLoggedInState();
+            this.router.navigate(['/']);
+          }
+          this.isLoading.set(false);
+        },
+        error: (err) => {
+          console.log(
+            '❌ Error performing the http request, error message:',
+            err
+          );
 
-        const errorResponse = err.error;
-        if (errorResponse && typeof errorResponse === 'object') {
-          const { status, message } = errorResponse;
-
+          const { status, message } = err.error;
           if (status === 'error' && message) {
             // Set error message from the backend
-            this.errorMessage.set(errorResponse.message);
+            this.errorMessage.set(message);
+          } else {
+            // Set a generic error message if there's no JSON body or message
+            this.errorMessage.set('Nie udało się połączyć z serwerem.');
           }
-        } else {
-          // Set a generic error message if there's no JSON body or message
-          this.errorMessage.set('Nie udało się połączyć z serwerem.');
-        }
-        this.isLoading.set(false);
-      },
-    });
+          this.isLoading.set(false);
+        },
+      });
   }
 
   persistLoggedInState(): void {
