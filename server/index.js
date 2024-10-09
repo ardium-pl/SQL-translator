@@ -92,7 +92,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
   if (!userQuery) {
     res.status(400).json({ status: "error", message: "No query provided." });
 
-    return null;
+    return;
   }
 
   try {
@@ -111,15 +111,9 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
         message: "An error occured while processing the request.",
       });
 
-      return null;
+      return;
     }
-    // if (!sqlAnswer.isTranslatable) {
-    //   res.status(200).json({
-    //     message: "😓 Unfortunately, I am unable to translate this query.",
-    //   });
 
-    //   return null;
-    // }
     if (!sqlAnswer.isSelect) {
       res.status(200).json({
         status: "error",
@@ -128,7 +122,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
         sqlStatement: sqlAnswer.sqlStatement,
       });
 
-      return null;
+      return;
     }
 
     // Execute the generated SQL query
@@ -140,16 +134,8 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
         sqlStatement: sqlAnswer.sqlStatement,
       });
 
-      return null;
+      return;
     }
-    // if (rows.length < 1) {
-    //   res.status(200).json({
-    //     message: "No rows found.",
-    //     sqlStatement: sqlAnswer.sqlStatement,
-    //   });
-
-    //   return null;
-    // }
 
     // Call OpenAI to format the result
     const formattedAnswer = await generateGPTAnswer(
@@ -164,12 +150,8 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
         message: "An error occured while processing the request.",
       });
 
-      return null;
+      return;
     }
-
-    // const message = formattedAnswer.isRelevant
-    //   ? formattedAnswer.formattedAnswer
-    //   : "😓 Unfortunately, based on the information in our database I am unable to answer the question.";
 
     // Send back the response
     res.status(200).json({

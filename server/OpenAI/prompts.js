@@ -40,10 +40,6 @@ export function promptForSQL(userQuery) {
   ];
 }
 
-// Apart from the table definitions the schema also includes: example rows, column descriptions, distinct column values and format of those values.
-
-// When generating SQL, make sure to account for structured data by using 'LIKE' when the column values include prefixes or additional formatting. Consider distinct values and examples to guide your translation.
-
 // OpenAI prompt for structuring retrieved database results into a desired output format (full sentence)
 export function promptForAnswer(userQuery, sqlStatement, rowData) {
   return [
@@ -81,8 +77,4 @@ export function promptForAnswer(userQuery, sqlStatement, rowData) {
   ];
 }
 
-// If data obtained from the database is an empty list while the SQL query is valid it might mean that e.g. there are simply no products about which the user asks.
-
 // TODO: add examples to propmptForAnswer
-
-// (the points in unordered list should be dashes)
