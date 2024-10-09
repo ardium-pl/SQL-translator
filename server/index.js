@@ -61,6 +61,21 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout", async (req, res) => {
+  loggerMain.info("↖️ Received a new logout request.");
+
+  // Clear the JWT token cookie (sets the Expiration Date of the cookie to a date in the past)
+  res.clearCookie("auth_token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  res
+    .status(200)
+    .json({ status: "success", message: "Logged out successfully." });
+  loggerMain.info(`Auth cookie cleared.`);
+});
+
 app.get("/test", JWTverificator, async (req, res) => {
   loggerMain.info("📩 [/test] Received a new GET request.");
   res

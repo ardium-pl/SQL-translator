@@ -9,6 +9,7 @@ import { CardTextContentComponent } from '../../components/card/card-text-conten
 import { CardComponent } from '../../components/card/card.component';
 import { ResultsGridComponent } from '../../components/results-grid/results-grid.component';
 import { DataFetchingService } from '../../services/data-fetching.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-main-page',
@@ -29,6 +30,7 @@ import { DataFetchingService } from '../../services/data-fetching.service';
 })
 export class MainPageComponent {
   readonly dataFetchingService = inject(DataFetchingService);
+  readonly authService = inject(AuthService);
   readonly displayGrid = signal(false);
   readonly zapytanieForm = new FormGroup({
     zapytanieInput: new FormControl(this.dataFetchingService.zapytanieInput()),

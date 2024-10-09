@@ -22,16 +22,11 @@ import { AuthService } from '../../services/auth.service';
 export class LoginPageComponent {
   readonly authService = inject(AuthService);
   readonly loginForm = new FormGroup({
-    passwordInput: new FormControl('klucz dostępu'),
+    passwordInput: new FormControl(''),
   });
 
   submitPassword() {
     const userInput = this.loginForm.value.passwordInput || '';
-    if (!userInput) {
-      console.log('No password provided.');
-    } else {
-      console.log(`Submitted password: ${userInput}`);
-      this.authService.login(userInput);
-    }
+    this.authService.login(userInput);
   }
 }

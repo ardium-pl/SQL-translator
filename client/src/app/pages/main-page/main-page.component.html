@@ -43,7 +43,10 @@
 
           <div class="button-container">
             <app-button
-              [disabled]="this.dataFetchingService.isLoading()"
+              [disabled]="
+                this.dataFetchingService.isLoading() ||
+                this.authService.waitingForLogout()
+              "
               type="submit"
               >Zatwierdź</app-button
             >
@@ -74,10 +77,20 @@
   !this.dataFetchingService.isFirstAppOpen()) {
   <div class="button-container">
     <app-button
-      [disabled]="this.dataFetchingService.isLoading()"
+      [disabled]="
+        this.dataFetchingService.isLoading() ||
+        this.authService.waitingForLogout()
+      "
       (click)="this.displayGrid.set(true)"
       >Przejdź do tabeli rezultatów</app-button
     >
   </div>
   }
 </div>
+
+<app-button
+  class="logout-button"
+  [disabled]="this.authService.waitingForLogout()"
+  (click)="this.authService.logout(); this.dataFetchingService.errorMessage.set('')"
+  >Wyloguj</app-button
+>
