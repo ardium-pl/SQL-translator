@@ -17,7 +17,7 @@ export function JWTverificator(req, res, next) {
     loggerMain.warn(`No token provided. Responding with 403 Forbidden.`);
     return res
       .status(403)
-      .json({ status: "error", message: "No token provided" });
+      .json({ status: "error", message: "No token provided." });
   }
 
   jwt.verify(JWTtoken, JWT_SECRET, (err, decoded) => {

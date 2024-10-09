@@ -45,7 +45,8 @@
             <app-button
               [disabled]="
                 this.dataFetchingService.isLoading() ||
-                this.authService.waitingForLogout()
+                this.authService.isWaitingForLogout() ||
+                this.authService.isSessionExpired()
               "
               type="submit"
               >Zatwierdź</app-button
@@ -79,7 +80,7 @@
     <app-button
       [disabled]="
         this.dataFetchingService.isLoading() ||
-        this.authService.waitingForLogout()
+        this.authService.isWaitingForLogout()
       "
       (click)="this.displayGrid.set(true)"
       >Przejdź do tabeli rezultatów</app-button
@@ -90,7 +91,9 @@
 
 <app-button
   class="logout-button"
-  [disabled]="this.authService.waitingForLogout()"
-  (click)="this.authService.logout(); this.dataFetchingService.errorMessage.set('')"
+  [disabled]="this.authService.isWaitingForLogout()"
+  (click)="
+    this.authService.logout(); this.dataFetchingService.errorMessage.set('')
+  "
   >Wyloguj</app-button
 >

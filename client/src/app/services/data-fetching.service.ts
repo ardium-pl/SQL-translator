@@ -9,12 +9,14 @@ import {
   EXAMPLE_USER_QUERY,
 } from '../utils/exampleValues';
 import { RowMYSQL } from '../interfaces/row-mysql';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
+  readonly authService = inject(AuthService);
   readonly isLoading = signal<boolean>(false);
   readonly isFirstAppOpen = signal<boolean>(true);
   readonly zapytanieInput = signal<string>(EXAMPLE_USER_QUERY);
@@ -70,8 +72,19 @@ export class DataFetchingService {
 
           const { status, message } = err.error;
           if (status === 'error' && message) {
-            // Set error message from the backend
-            this.errorMessage.set(message);
+            switch (message) {
+              case 'No token provided.':
+              case 'Invalid verification token.':
+                this.errorMessage.set(
+                  'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.'
+                );
+                this.authService.removeAuthenticatedFlag();
+                this.authService.isSessionExpired.set(true);
+                break;
+              default:
+                // Set error message from the backend
+                this.errorMessage.set(message);
+            }
           } else {
             // Set a generic error message if there's no JSON body or message
             this.errorMessage.set('Nie udało się połączyć z serwerem.');

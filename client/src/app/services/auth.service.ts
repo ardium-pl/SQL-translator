@@ -12,13 +12,14 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   readonly isLoading = signal<boolean>(false);
-  readonly waitingForLogout = signal<boolean>(false);
+  readonly isSessionExpired = signal<boolean>(false);
+  readonly isWaitingForLogout = signal<boolean>(false);
   readonly errorMessage = signal<string>('');
 
   login(userPassword: string): void {
     if (!userPassword) {
-      this.errorMessage.set('Proszę podać klucz dostępu.')
-      return
+      this.errorMessage.set('Proszę podać klucz dostępu.');
+      return;
     }
 
     this.isLoading.set(true);
@@ -36,6 +37,7 @@ export class AuthService {
           if (res.status === 'success') {
             console.log(`✅ Verification successful!`);
             this.persistLoggedInState();
+            this.isSessionExpired.set(false);
             this.router.navigate(['/']);
           }
           this.isLoading.set(false);
@@ -60,16 +62,20 @@ export class AuthService {
   }
 
   logout(): void {
-    this.waitingForLogout.set(true);
+    this.isWaitingForLogout.set(true);
     this.errorMessage.set('');
 
     console.log('⚙️ Logging out...');
 
     // Empty {} as request body needed in order for this to work 😡
     this.http
-      .post<any>(apiUrl('/logout'), {}, {
-        withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
-      })
+      .post<any>(
+        apiUrl('/logout'),
+        {},
+        {
+          withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
+        }
+      )
       .subscribe({
         next: (res) => {
           if (res.status === 'success') {
@@ -77,10 +83,10 @@ export class AuthService {
           }
 
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
-          localStorage.removeItem('isAuthenticated');
+          this.removeAuthenticatedFlag();
           this.router.navigate(['/login']);
           console.log(`Logged out successfully.`);
-          this.waitingForLogout.set(false);
+          this.isWaitingForLogout.set(false);
         },
         error: (err) => {
           console.log(
@@ -96,13 +102,17 @@ export class AuthService {
             // Set a generic error message if there's no JSON body or message
             this.errorMessage.set('Nie udało się wylogować.');
           }
-          this.waitingForLogout.set(false);
+          this.isWaitingForLogout.set(false);
         },
       });
   }
 
   persistLoggedInState(): void {
     localStorage.setItem('isAuthenticated', 'true');
+  }
+
+  removeAuthenticatedFlag(): void {
+    localStorage.removeItem('isAuthenticated');
   }
 
   isLoggedIn(): boolean {
