@@ -23,6 +23,7 @@ export class AuthService {
       next: (res) => {
         if (res.status === 'success') {
           console.log(`✅ Verification successful!`);
+          this.persistLoggedInState();
           this.router.navigate(['/']);
         }
       },
@@ -46,5 +47,13 @@ export class AuthService {
         }
       },
     });
+  }
+
+  persistLoggedInState(): void {
+    localStorage.setItem('isAuthenticated', 'true');
+  }
+
+  isLoggedIn(): boolean {
+    return localStorage.getItem('isAuthenticated') === 'true';
   }
 }
