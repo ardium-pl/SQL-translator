@@ -6,7 +6,7 @@ import {
   finalResponse,
 } from "./OpenAI/openai.js";
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
-import { executeSQL } from "./Database/mysql.js";
+import { executeSQL, fetchPassword } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
 import { JWTverificator } from "./Utils/middleware.js";
 import jwt from "jsonwebtoken";
@@ -16,7 +16,6 @@ import cookieParser from "cookie-parser";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const PASSWORD = process.env.PASSWORD;
 
 const app = express();
 
@@ -35,9 +34,25 @@ app.post("/login", async (req, res) => {
   loggerMain.info("↘️ Received a new login attempt.");
 
   const userPassword = req.body?.password;
-  loggerMain.info(`🔑 Password received in request header: ${userPassword}`);
+  loggerMain.info(`🔑 Password received in request body: ${userPassword}`);
 
-  if (userPassword === PASSWORD) {
+  // Short-circuit if there is no user provided password
+  if (!userPassword) {
+    loggerMain.warn(
+      `❌ No password provided. Responding with 401 Unauthorized.`
+    );
+    res.status(401).json({ status: "error", message: "No password provided" });
+    return;
+  }
+
+  const password = await fetchPassword();
+  // Short-circuit if the server failed to fetch the password
+  if (!password) {
+    res.status(500).json({ status: "error", message: "Internal server error" });
+    return;
+  }
+
+  if (userPassword === password) {
     loggerMain.info(`✅ Password correct.`);
 
     // Generate a JWT token valid for 1 hour
