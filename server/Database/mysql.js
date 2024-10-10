@@ -53,7 +53,7 @@ export async function executeSQL(query) {
 }
 
 export async function fetchPassword() {
-  const query = `SELECT password_hash FROM secrets LIMIT 1`;
+  const query = `SELECT password_hash FROM secrets WHERE id = 1`;
   const result = await executeSQL(query);
   if (result && result.length > 0 && result[0].password_hash) {
     loggerMySQL.info(`Password hash fetched from the db.`);

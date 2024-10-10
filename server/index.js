@@ -12,6 +12,7 @@ import { JWTverificator } from "./Utils/middleware.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import bcrypt from "bcrypt";
 
 dotenv.config();
 
@@ -52,7 +53,8 @@ app.post("/login", async (req, res) => {
     return;
   }
 
-  if (userPassword === password) {
+  const areMatching = await bcrypt.compare(userPassword, password)
+  if (areMatching) {
     loggerMain.info(`✅ Password correct.`);
 
     // Generate a JWT token valid for 1 hour
