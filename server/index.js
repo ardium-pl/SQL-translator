@@ -17,6 +17,7 @@ import bcrypt from "bcrypt";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const NODE_ENV = process.env.NODE_ENV;
 
 const app = express();
 
@@ -25,7 +26,10 @@ app.use(cookieParser());
 //  Access-Control-Allow-Credentials: true & Access-Control-Allow-Origin: XXX headers need to be configured in order for a browser to send cookies to the server in cross-origin context
 app.use(
   cors({
-    origin: "http://localhost:4200",
+    origin:
+      NODE_ENV === "production"
+        ? "https://sql-translator-development.up.railway.app"
+        : "http://localhost:4200",
     credentials: true,
   })
 );
@@ -53,7 +57,7 @@ app.post("/login", async (req, res) => {
     return;
   }
 
-  const areMatching = await bcrypt.compare(userPassword, password)
+  const areMatching = await bcrypt.compare(userPassword, password);
   if (areMatching) {
     loggerMain.info(`✅ Password correct.`);
 
