@@ -4,7 +4,7 @@ import {
   generateGPTAnswer,
   sqlResponse,
   finalResponse,
-} from "./OpenAI/openai.js";
+} from "./OpenAI/openAI.js";
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
 import { executeSQL, fetchPassword } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
