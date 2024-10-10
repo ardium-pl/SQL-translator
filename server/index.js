@@ -8,6 +8,7 @@ import {
 import { promptForSQL, promptForAnswer } from "./OpenAI/prompts.js";
 import { executeSQL, fetchPassword } from "./Database/mysql.js";
 import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
+import { clientRouter } from "./client.js";
 import { JWTverificator } from "./Utils/middleware.js";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -33,6 +34,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(clientRouter);
 
 // Login route to handle password verification and token generation
 app.post("/login", async (req, res) => {
