@@ -24,14 +24,6 @@
           }"
         ></textarea>
 
-        <!-- <app-card-input
-          [inheritedFormControl]="zapytanieForm.controls.zapytanieInput"
-          [errorState]="this.dataFetchingService.errorMessage()"
-          [ngClass]="
-            this.dataFetchingService.isFirstAppOpen() ? 'expanded-on-init' : ''
-          "
-        ></app-card-input> -->
-
         <div class="bottom-row-container">
           @if (this.messageService.errorMessage()) {
           <div class="error-container">
@@ -92,8 +84,6 @@
 <app-button
   class="logout-button"
   [disabled]="this.authService.isWaitingForLogout()"
-  (click)="
-    this.authService.logout(); this.messageService.errorMessage.set('')
-  "
+  (click)="this.authService.logout(); this.messageService.errorMessage.set('')"
   >Wyloguj</app-button
 >
