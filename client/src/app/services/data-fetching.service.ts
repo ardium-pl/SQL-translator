@@ -11,6 +11,7 @@ import {
 import { RowMYSQL } from '../interfaces/row-mysql';
 import { AuthService } from './auth.service';
 import { MessageService } from './message.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -36,15 +37,13 @@ export class DataFetchingService {
       .post<any>(apiUrl('/language-to-sql'), payload, {
         withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (res) => {
           this.rowData.set(res.rawData || []);
           this.sqlStatement.set(res.sqlStatement || '');
           this.formattedAnswer.set(res.formattedAnswer || '');
           this.isFirstAppOpen.set(false);
-          this.isLoading.set(false);
-        },
-        error: (err) => {
           this.isLoading.set(false);
         },
       });

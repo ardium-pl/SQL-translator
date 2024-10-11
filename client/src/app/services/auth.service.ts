@@ -4,6 +4,7 @@ import { AuthPayload } from '../interfaces/reqeust-payloads';
 import { apiUrl } from '../utils/apiUrl';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import { finalize } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -30,14 +31,12 @@ export class AuthService {
       .post<any>(apiUrl('/login'), payload, {
         withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
+      .pipe(finalize(() => this.isLoading.set(false)))
       .subscribe({
         next: (res) => {
           this.persistLoggedInState();
           this.isSessionExpired.set(false);
           this.router.navigate(['/']);
-          this.isLoading.set(false);
-        },
-        error: (err) => {
           this.isLoading.set(false);
         },
       });
@@ -56,14 +55,12 @@ export class AuthService {
           withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
         }
       )
+      .pipe(finalize(() => this.isWaitingForLogout.set(false)))
       .subscribe({
         next: (res) => {
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
           this.removeAuthenticatedFlag();
           this.router.navigate(['/login']);
-          this.isWaitingForLogout.set(false);
-        },
-        error: (err) => {
           this.isWaitingForLogout.set(false);
         },
       });
