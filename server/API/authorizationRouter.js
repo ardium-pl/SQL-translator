@@ -1,0 +1,81 @@
+import express from "express";
+import { fetchPassword } from "../Database/mysql.js";
+import { loggerMain} from "../Utils/logger.js";
+import { JWTverificator } from "../Utils/middleware.js";
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
+
+export const authRouter = express.Router();
+
+const JWT_SECRET = process.env.JWT_SECRET;
+
+authRouter.post("/login", async (req, res) => {
+  loggerMain.info("↘️ Received a new login attempt.");
+
+  const userPassword = req.body?.password;
+
+  // Short-circuit if there is no user provided password
+  if (!userPassword) {
+    loggerMain.warn(
+      `❌ No password provided. Responding with 401 Unauthorized.`
+    );
+    res
+      .status(401)
+      .json({ status: "error", errorCode: "No password provided" });
+    return;
+  }
+
+  const password = await fetchPassword();
+  // Short-circuit if the server failed to fetch the password
+  if (!password) {
+    res
+      .status(500)
+      .json({ status: "error", errorCode: "Internal server error" });
+    return;
+  }
+
+  const areMatching = await bcrypt.compare(userPassword, password);
+  if (areMatching) {
+    loggerMain.info(`✅ Password correct.`);
+
+    // Generate a JWT token valid for 1 hour
+    // Default headers: { "alg": "HS256", "typ": "JWT" } Claims on payload: { "iat": xxx, "exp": xxx }
+    const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: "1h" });
+
+    // Send the JWT token as a HttpOnly, Secure, SameSite cookie
+    res.cookie("auth_token", JWTtoken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "Strict",
+      maxAge: 3600000, // 1 hour
+    });
+    res
+      .status(200)
+      .json({ status: "success", message: "Logged in successfully." });
+  } else {
+    loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
+    res.status(401).json({ status: "error", errorCode: "Invalid password" });
+  }
+});
+
+authRouter.post("/logout", async (req, res) => {
+  loggerMain.info("↖️ Received a new logout request.");
+
+  // Clear the JWT token cookie (sets the Expiration Date of the cookie to a date in the past)
+  res.clearCookie("auth_token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+  });
+  res
+    .status(200)
+    .json({ status: "success", message: "Logged out successfully." });
+  loggerMain.info(`Auth cookie cleared.`);
+});
+
+authRouter.get("/test", JWTverificator, async (req, res) => {
+  loggerMain.info("📩 [/test] Received a new GET request.");
+  res
+    .status(200)
+    .json({ status: "success", message: "Welcome, you passed the test!" });
+});

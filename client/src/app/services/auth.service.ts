@@ -28,7 +28,7 @@ export class AuthService {
 
     const payload: AuthPayload = { password: userPassword };
     this.http
-      .post<any>(apiUrl('/login'), payload, {
+      .post<any>(apiUrl('/auth/login'), payload, {
         withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
       })
       .pipe(finalize(() => this.isLoading.set(false)))
@@ -49,7 +49,7 @@ export class AuthService {
     // Empty {} as request body needed in order for this to work 😡
     this.http
       .post<any>(
-        apiUrl('/logout'),
+        apiUrl('/auth/logout'),
         {},
         {
           withCredentials: true, // Has to be true if the request should be sent with outgoing credentials (cookies).
@@ -60,7 +60,7 @@ export class AuthService {
         next: (res) => {
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
           this.removeAuthenticatedFlag();
-          this.router.navigate(['/login']);
+          this.router.navigate(['/auth/login']);
           this.isWaitingForLogout.set(false);
         },
       });
