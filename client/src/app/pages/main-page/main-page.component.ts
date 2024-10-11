@@ -33,11 +33,11 @@ export class MainPageComponent {
   readonly messageService = inject(MessageService);
   readonly displayGrid = signal(false);
   readonly zapytanieForm = new FormGroup({
-    zapytanieInput: new FormControl(this.dataFetchingService.zapytanieInput()),
+    query: new FormControl(this.dataFetchingService.query()),
   });
 
   submitQuery() {
-    const userInput = this.zapytanieForm.value.zapytanieInput || '';
+    const userInput = this.zapytanieForm.value.query || '';
     this.dataFetchingService.fetchAiAnswers(userInput);
   }
 }

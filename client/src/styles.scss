@@ -56,3 +56,8 @@ textarea {
     outline: 0.125rem solid var(--sys-error);
   }
 }
+
+// Strings being the part of the response have crucial information wrapped in <div class="bold"></div>
+.bold {
+  @include m3-title-medium;
+}

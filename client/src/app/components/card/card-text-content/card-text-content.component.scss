@@ -14,10 +14,3 @@
   border-radius: var(--m3-corner-small);
   background: var(--sys-surface-container-high);
 }
-
-// Strings being the part of the response have crucial information wrapped in <div class="bold"></div>
-::ng-deep {
-  .bold {
-    @include m3-title-medium;
-  }
-}

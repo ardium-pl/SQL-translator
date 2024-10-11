@@ -24,11 +24,11 @@ export class LoginPageComponent {
   readonly authService = inject(AuthService);
   readonly messageService = inject(MessageService);
   readonly loginForm = new FormGroup({
-    passwordInput: new FormControl(''),
+    password: new FormControl(''),
   });
 
   submitPassword() {
-    const userInput = this.loginForm.value.passwordInput || '';
+    const userInput = this.loginForm.value.password || '';
     this.authService.login(userInput);
   }
 }

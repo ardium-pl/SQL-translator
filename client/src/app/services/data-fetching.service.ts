@@ -10,7 +10,6 @@ import {
 } from '../utils/exampleValues';
 import { RowMYSQL } from '../interfaces/row-mysql';
 import { AuthService } from './auth.service';
-import { MessageService } from './message.service';
 import { finalize } from 'rxjs';
 
 @Injectable({
@@ -19,18 +18,16 @@ import { finalize } from 'rxjs';
 export class DataFetchingService {
   private readonly http = inject(HttpClient);
   readonly authService = inject(AuthService);
-  readonly messageService = inject(MessageService);
   readonly isLoading = signal<boolean>(false);
   readonly isFirstAppOpen = signal<boolean>(true);
-  readonly zapytanieInput = signal<string>(EXAMPLE_USER_QUERY);
+  readonly query = signal<string>(EXAMPLE_USER_QUERY);
   readonly rowData = signal<RowMYSQL[]>(EXAMPLE_ROW_DATA_ARRAY);
   readonly sqlStatement = signal<string>(EXAMPLE_SQL_STATEMENT);
   readonly formattedAnswer = signal<string>(EXAMPLE_FORMATTED_ANSWER);
 
   fetchAiAnswers(userQuery: string): void {
-    this.zapytanieInput.set(userQuery);
+    this.query.set(userQuery);
     this.isLoading.set(true);
-    this.messageService.errorMessage.set('');
 
     const payload: QueryPayload = { query: userQuery };
     this.http

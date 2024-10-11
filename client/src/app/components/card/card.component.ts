@@ -8,5 +8,5 @@ import { Component, input } from '@angular/core';
   styleUrl: './card.component.scss',
 })
 export class CardComponent {
-  readonly title = input<string>('');
+  readonly cardTitle = input<string>('');
 }

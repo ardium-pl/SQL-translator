@@ -16,9 +16,8 @@ export class ResultsGridComponent {
   readonly rowData = this.dataFetchingService.rowData;
   readonly colDefs = computed<ColDef[]>((): ColDef[] => {
     const columnNames = Object.keys(this.rowData()[0]);
-    const colDefs = columnNames.map((name) => ({
+    return columnNames.map((name) => ({
       field: name,
-    }));
-    return colDefs;
+    }));;
   });
 }

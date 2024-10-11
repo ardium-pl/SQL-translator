@@ -8,11 +8,11 @@
   </div>
 
   <div class="cards-container">
-    <app-card title="Klucz dostępu">
+    <app-card cardTitle="Klucz dostępu">
       <form class="form" [formGroup]="loginForm" (ngSubmit)="submitPassword()">
         <input
           type="password"
-          formControlName="passwordInput"
+          formControlName="password"
           [ngClass]="{
             error: this.messageService.errorMessage(),
           }"

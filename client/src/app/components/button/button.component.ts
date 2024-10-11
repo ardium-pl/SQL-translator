@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { ButtonType } from './button.types';
 
 @Component({
   selector: 'app-button',
@@ -9,5 +10,5 @@ import { Component, input } from '@angular/core';
 })
 export class ButtonComponent {
   readonly disabled = input<boolean>(false);
-  readonly type = input<string>('text');
+  readonly type = input<ButtonType>('button');
 }

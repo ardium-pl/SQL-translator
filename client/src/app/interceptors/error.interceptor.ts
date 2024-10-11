@@ -23,6 +23,9 @@ export class ErrorInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    // Reset error message before each HTTP request
+    this.messageService.errorMessage.set('');
+
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         const { status, errorCode } = error.error;

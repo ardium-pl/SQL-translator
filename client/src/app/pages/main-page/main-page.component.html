@@ -3,7 +3,7 @@
     @if (displayGrid()) {
 
     <!-- Dane z bazy -->
-    <app-card title="Dane z bazy">
+    <app-card cardTitle="Dane z bazy">
       <app-results-grid />
       <div class="button-container">
         <app-button (click)="this.displayGrid.set(false)">Powrót</app-button>
@@ -13,11 +13,11 @@
     } @else {
 
     <!-- Zapytanie do bazy danych -->
-    <app-card title="Zapytanie do bazy danych">
+    <app-card cardTitle="Zapytanie do bazy danych">
       <form class="form" [formGroup]="zapytanieForm" (ngSubmit)="submitQuery()">
         <textarea
           type="text"
-          formControlName="zapytanieInput"
+          formControlName="query"
           [ngClass]="{
             error: this.messageService.errorMessage(),
             'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
@@ -50,14 +50,14 @@
 
     @if (!this.dataFetchingService.isFirstAppOpen()) {
     <!-- Odpowiedź Asystenta -->
-    <app-card title="Odpowiedź Asystenta"
+    <app-card cardTitle="Odpowiedź Asystenta"
       ><app-card-text-content
         [innerHTML]="this.dataFetchingService.formattedAnswer()"
       />
     </app-card>
 
     <!-- Tłumaczenie SQL -->
-    <app-card title="Tłumaczenie SQL"
+    <app-card cardTitle="Tłumaczenie SQL"
       ><app-card-text-content
         [innerHTML]="this.dataFetchingService.sqlStatement()"
       />
@@ -84,6 +84,6 @@
 <app-button
   class="logout-button"
   [disabled]="this.authService.isWaitingForLogout()"
-  (click)="this.authService.logout(); this.messageService.errorMessage.set('')"
+  (click)="this.authService.logout()"
   >Wyloguj</app-button
 >

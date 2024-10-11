@@ -24,7 +24,6 @@ export class AuthService {
     }
 
     this.isLoading.set(true);
-    this.messageService.errorMessage.set('');
 
     const payload: AuthPayload = { password: userPassword };
     this.http
@@ -44,7 +43,6 @@ export class AuthService {
 
   logout(): void {
     this.isWaitingForLogout.set(true);
-    this.messageService.errorMessage.set('');
 
     // Empty {} as request body needed in order for this to work 😡
     this.http
