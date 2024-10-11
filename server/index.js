@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import {
@@ -11,11 +12,8 @@ import { loggerMain, loggerMySQL, loggerOpenAI } from "./Utils/logger.js";
 import { clientRouter } from "./client.js";
 import { JWTverificator } from "./Utils/middleware.js";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcrypt";
-
-dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
 const NODE_ENV = process.env.NODE_ENV;
@@ -49,14 +47,16 @@ app.post("/login", async (req, res) => {
     loggerMain.warn(
       `❌ No password provided. Responding with 401 Unauthorized.`
     );
-    res.status(401).json({ status: "error", message: "No password provided" });
+    res.status(401).json({ status: "error", errorCode: "No password provided" });
     return;
   }
 
   const password = await fetchPassword();
   // Short-circuit if the server failed to fetch the password
   if (!password) {
-    res.status(500).json({ status: "error", message: "Internal server error" });
+    res
+      .status(500)
+      .json({ status: "error", errorCode: "Internal server error" });
     return;
   }
 
@@ -81,7 +81,7 @@ app.post("/login", async (req, res) => {
       .json({ status: "success", message: "Logged in successfully." });
   } else {
     loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
-    res.status(401).json({ status: "error", message: "Invalid password" });
+    res.status(401).json({ status: "error", errorCode: "Invalid password" });
   }
 });
 
@@ -114,7 +114,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
   // console.log(promptForSQL(userQuery));
 
   if (!userQuery) {
-    res.status(400).json({ status: "error", message: "No query provided." });
+    res.status(400).json({ status: "error", errorCode: "No query provided." });
 
     return;
   }
@@ -132,16 +132,16 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
       loggerOpenAI.error("Failed to create the SQL query.");
       res.status(500).json({
         status: "error",
-        message: "An error occured while processing the request.",
+        errorCode: "An error occured while processing the request.",
       });
 
       return;
     }
 
     if (!sqlAnswer.isSelect) {
-      res.status(200).json({
+      res.status(400).json({
         status: "error",
-        message:
+        errorCode:
           "It seems that you want to perform a query other than SELECT, which I cannot execute.",
         sqlStatement: sqlAnswer.sqlStatement,
       });
@@ -154,7 +154,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
     if (!rows) {
       res.status(500).json({
         status: "error",
-        message: "Database error. Failed to execute the SQL query.",
+        errorCode: "Database error. Failed to execute the SQL query.",
         sqlStatement: sqlAnswer.sqlStatement,
       });
 
@@ -171,7 +171,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
       loggerOpenAI.error("Failed to generate the formatted answer.");
       res.status(500).json({
         status: "error",
-        message: "An error occured while processing the request.",
+        errorCode: "An error occured while processing the request.",
       });
 
       return;
@@ -190,7 +190,7 @@ app.post("/language-to-sql", JWTverificator, async (req, res) => {
     loggerMain.error(error);
     res.status(500).json({
       status: "error",
-      message: "An error occured while processing the request.",
+      errorCode: "An error occured while processing the request.",
     });
   }
 });

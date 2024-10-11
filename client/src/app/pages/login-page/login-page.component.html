@@ -14,14 +14,14 @@
           type="password"
           formControlName="passwordInput"
           [ngClass]="{
-            error: this.authService.errorMessage(),
+            error: this.messageService.errorMessage(),
           }"
         />
 
         <div class="bottom-row-container">
-          @if (this.authService.errorMessage()) {
+          @if (this.messageService.errorMessage()) {
           <div class="error-container">
-            <b>Błąd:</b> {{ this.authService.errorMessage() }}
+            <b>Błąd:</b> {{ this.messageService.errorMessage() }}
           </div>
           } @if (this.authService.isLoading()) {
           <app-spinner />

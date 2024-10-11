@@ -5,6 +5,7 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { CardComponent } from '../../components/card/card.component';
 import { AuthService } from '../../services/auth.service';
+import { MessageService } from '../../services/message.service';
 
 @Component({
   selector: 'app-login-page',
@@ -21,6 +22,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class LoginPageComponent {
   readonly authService = inject(AuthService);
+  readonly messageService = inject(MessageService);
   readonly loginForm = new FormGroup({
     passwordInput: new FormControl(''),
   });

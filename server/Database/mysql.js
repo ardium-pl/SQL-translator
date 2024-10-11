@@ -1,8 +1,5 @@
 import mysql from "mysql2/promise";
-import dotenv from "dotenv";
 import { loggerMySQL } from "../Utils/logger.js";
-
-dotenv.config();
 
 const dbConfig = {
   host: process.env.MYSQL_HOST,

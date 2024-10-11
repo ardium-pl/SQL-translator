@@ -1,10 +1,7 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import dotenv from "dotenv";
 import { loggerOpenAI } from "../Utils/logger.js";
-
-dotenv.config();
 
 const openai = new OpenAI();
 

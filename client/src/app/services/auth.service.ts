@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthPayload } from '../interfaces/reqeust-payloads';
 import { apiUrl } from '../utils/apiUrl';
 import { Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
+import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,19 +11,19 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
+  readonly messageService = inject(MessageService);
   readonly isLoading = signal<boolean>(false);
   readonly isSessionExpired = signal<boolean>(false);
   readonly isWaitingForLogout = signal<boolean>(false);
-  readonly errorMessage = signal<string>('');
 
   login(userPassword: string): void {
     if (!userPassword) {
-      this.errorMessage.set('Proszę podać klucz dostępu.');
+      this.messageService.errorMessage.set('Proszę podać klucz dostępu.');
       return;
     }
 
     this.isLoading.set(true);
-    this.errorMessage.set('');
+    this.messageService.errorMessage.set('');
 
     console.log('⚙️ Starting verification...');
 
@@ -47,15 +47,6 @@ export class AuthService {
             '❌ Error performing the http request, error message:',
             err
           );
-
-          const { status, message } = err.error;
-          if (status === 'error' && message) {
-            // Set error message from the backend
-            this.errorMessage.set(message);
-          } else {
-            // Set a generic error message if there's no JSON body or message
-            this.errorMessage.set('Nie udało się połączyć z serwerem.');
-          }
           this.isLoading.set(false);
         },
       });
@@ -63,7 +54,7 @@ export class AuthService {
 
   logout(): void {
     this.isWaitingForLogout.set(true);
-    this.errorMessage.set('');
+    this.messageService.errorMessage.set('');
 
     console.log('⚙️ Logging out...');
 
@@ -93,15 +84,6 @@ export class AuthService {
             '❌ Error performing the http request, error message:',
             err
           );
-
-          const { status, message } = err.error;
-          if (status === 'error' && message) {
-            // Set error message from the backend
-            this.errorMessage.set(message);
-          } else {
-            // Set a generic error message if there's no JSON body or message
-            this.errorMessage.set('Nie udało się wylogować.');
-          }
           this.isWaitingForLogout.set(false);
         },
       });

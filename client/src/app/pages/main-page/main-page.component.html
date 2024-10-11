@@ -19,7 +19,7 @@
           type="text"
           formControlName="zapytanieInput"
           [ngClass]="{
-            error: this.dataFetchingService.errorMessage(),
+            error: this.messageService.errorMessage(),
             'expanded-on-init': this.dataFetchingService.isFirstAppOpen()
           }"
         ></textarea>
@@ -33,9 +33,9 @@
         ></app-card-input> -->
 
         <div class="bottom-row-container">
-          @if (this.dataFetchingService.errorMessage()) {
+          @if (this.messageService.errorMessage()) {
           <div class="error-container">
-            <b>Błąd:</b> {{ this.dataFetchingService.errorMessage() }}
+            <b>Błąd:</b> {{ this.messageService.errorMessage() }}
           </div>
           } @if (this.dataFetchingService.isLoading()) {
           <app-spinner />
@@ -93,7 +93,7 @@
   class="logout-button"
   [disabled]="this.authService.isWaitingForLogout()"
   (click)="
-    this.authService.logout(); this.dataFetchingService.errorMessage.set('')
+    this.authService.logout(); this.messageService.errorMessage.set('')
   "
   >Wyloguj</app-button
 >

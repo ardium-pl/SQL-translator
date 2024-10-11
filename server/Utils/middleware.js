@@ -1,8 +1,5 @@
-import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 import { loggerMain } from "./logger.js";
-
-dotenv.config();
 
 // Secret key for signing JWT
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -16,7 +13,7 @@ export function JWTverificator(req, res, next) {
     loggerMain.warn(`No token provided. Responding with 403 Forbidden.`);
     return res
       .status(403)
-      .json({ status: "error", message: "No token provided." });
+      .json({ status: "error", errorCode: "No token provided." });
   }
 
   jwt.verify(JWTtoken, JWT_SECRET, (err, decoded) => {
@@ -26,7 +23,7 @@ export function JWTverificator(req, res, next) {
       );
       return res
         .status(401)
-        .json({ status: "error", message: "Invalid verification token." });
+        .json({ status: "error", errorCode: "Invalid verification token." });
     }
 
     // Proceed if token is valid
@@ -48,7 +45,7 @@ export function APIkeyVerificator(req, res, next) {
     );
     res
       .status(403)
-      .json({ status: "error", message: "Forbidden: Invalid API Key" });
+      .json({ status: "error", errorCode: "Forbidden: Invalid API Key" });
   } else {
     next();
   }

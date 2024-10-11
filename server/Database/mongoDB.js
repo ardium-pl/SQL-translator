@@ -1,8 +1,5 @@
 import { MongoClient } from "mongodb";
 import { loggerMongoDB } from "../Utils/logger.js";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const MONGO_DATABASE = process.env.MONGO_DATABASE;
