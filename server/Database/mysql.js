@@ -54,7 +54,6 @@ export async function fetchPassword() {
   const result = await executeSQL(query);
   if (result && result.length > 0 && result[0].password_hash) {
     loggerMySQL.info(`Password hash fetched from the db.`);
-    loggerMySQL.info(`Password: ${result[0].password_hash}`);
     return result[0].password_hash;
   } else {
     loggerMySQL.error(`❌ Failed to fetch the password.`);

@@ -40,7 +40,6 @@ app.post("/login", async (req, res) => {
   loggerMain.info("↘️ Received a new login attempt.");
 
   const userPassword = req.body?.password;
-  loggerMain.info(`🔑 Password received in request body: ${userPassword}`);
 
   // Short-circuit if there is no user provided password
   if (!userPassword) {
@@ -67,7 +66,6 @@ app.post("/login", async (req, res) => {
     // Generate a JWT token valid for 1 hour
     // Default headers: { "alg": "HS256", "typ": "JWT" } Claims on payload: { "iat": xxx, "exp": xxx }
     const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: "1h" });
-    loggerMain.info(`Generated JWT token: ${JWTtoken}`);
 
     // Send the JWT token as a HttpOnly, Secure, SameSite cookie
     res.cookie("auth_token", JWTtoken, {

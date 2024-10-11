@@ -25,8 +25,6 @@ export class AuthService {
     this.isLoading.set(true);
     this.messageService.errorMessage.set('');
 
-    console.log('⚙️ Starting verification...');
-
     const payload: AuthPayload = { password: userPassword };
     this.http
       .post<any>(apiUrl('/login'), payload, {
@@ -34,19 +32,12 @@ export class AuthService {
       })
       .subscribe({
         next: (res) => {
-          if (res.status === 'success') {
-            console.log(`✅ Verification successful!`);
-            this.persistLoggedInState();
-            this.isSessionExpired.set(false);
-            this.router.navigate(['/']);
-          }
+          this.persistLoggedInState();
+          this.isSessionExpired.set(false);
+          this.router.navigate(['/']);
           this.isLoading.set(false);
         },
         error: (err) => {
-          console.log(
-            '❌ Error performing the http request, error message:',
-            err
-          );
           this.isLoading.set(false);
         },
       });
@@ -55,8 +46,6 @@ export class AuthService {
   logout(): void {
     this.isWaitingForLogout.set(true);
     this.messageService.errorMessage.set('');
-
-    console.log('⚙️ Logging out...');
 
     // Empty {} as request body needed in order for this to work 😡
     this.http
@@ -69,21 +58,12 @@ export class AuthService {
       )
       .subscribe({
         next: (res) => {
-          if (res.status === 'success') {
-            console.log(`Client side cookie cleared successfully.`);
-          }
-
           // Only remove the 'isAuthenticated' flag and redirect to login page after the session was terminated from the backend perspective
           this.removeAuthenticatedFlag();
           this.router.navigate(['/login']);
-          console.log(`Logged out successfully.`);
           this.isWaitingForLogout.set(false);
         },
         error: (err) => {
-          console.log(
-            '❌ Error performing the http request, error message:',
-            err
-          );
           this.isWaitingForLogout.set(false);
         },
       });

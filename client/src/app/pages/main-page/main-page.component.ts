@@ -40,11 +40,6 @@ export class MainPageComponent {
 
   submitQuery() {
     const userInput = this.zapytanieForm.value.zapytanieInput || '';
-    if (!userInput) {
-      console.log('🖊️ User input empty, short-circuiting...');
-    } else {
-      console.log(`🖊️ User input: ${JSON.stringify(userInput, null, 4)}`);
-      this.dataFetchingService.fetchAiAnswers(userInput);
-    }
+    this.dataFetchingService.fetchAiAnswers(userInput);
   }
 }

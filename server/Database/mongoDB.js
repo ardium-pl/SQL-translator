@@ -16,12 +16,10 @@ async function mongoRetrieveOne(database, collection, client) {
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
-      // projection: { _id: 0, schemaVersion: 0 },
-      projection: { _id: 0 },
+      projection: { _id: 0, schemaVersion: 0 },
     };
     const document = await coll.findOne(filter, options);
-    loggerMongoDB.info(`📄 Retrieved a single document.`);
-    loggerMongoDB.info(`Schema version: ${document.schemaVersion}`);
+    loggerMongoDB.info(`📄 Retrieved a db schema.`);
 
     return document;
   } catch (error) {
@@ -42,7 +40,7 @@ async function mongoRetrieveMany(database, collection, client) {
 
     const documents = await coll.find({}, options).toArray();
     loggerMongoDB.info(
-      `📄 Retrieved a total of ${documents.length} documents.`
+      `📄 Retrieved a total of ${documents.length} examples.`
     );
 
     return documents;

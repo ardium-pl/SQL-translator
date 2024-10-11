@@ -31,8 +31,6 @@ export class DataFetchingService {
     this.isLoading.set(true);
     this.messageService.errorMessage.set('');
 
-    console.log('⚙️ Fetching data from backend...');
-
     const payload: QueryPayload = { query: userQuery };
     this.http
       .post<any>(apiUrl('/language-to-sql'), payload, {
@@ -40,31 +38,13 @@ export class DataFetchingService {
       })
       .subscribe({
         next: (res) => {
-          console.log('✅ HTTP response received sucessfully!');
-
-          const { status, message } = res;
-          const receivedSqlStatement = res.sqlStatement || '';
-          const receivedFormattedAnswer = res.formattedAnswer || '';
-          const receivedRawData = res.rawData || [];
-
-          console.log(`💠 Message: ${message}`);
-          console.log(`💠 SQL Statement: ${receivedSqlStatement}`);
-          console.log(`💠 Formatted Answer: ${receivedFormattedAnswer}`);
-          console.log(
-            `💠 Row Data: ${JSON.stringify(receivedRawData, null, 2)}`
-          );
-
-          this.rowData.set(receivedRawData);
-          this.sqlStatement.set(receivedSqlStatement);
-          this.formattedAnswer.set(receivedFormattedAnswer);
+          this.rowData.set(res.rawData || []);
+          this.sqlStatement.set(res.sqlStatement || '');
+          this.formattedAnswer.set(res.formattedAnswer || '');
           this.isFirstAppOpen.set(false);
           this.isLoading.set(false);
         },
         error: (err) => {
-          console.log(
-            '❌ Error performing the http request, error message:',
-            err
-          );
           this.isLoading.set(false);
         },
       });
