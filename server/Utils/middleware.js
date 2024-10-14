@@ -10,9 +10,7 @@ export function JWTverificator(req, res, next) {
   
   if (!JWTtoken) {
     loggerMain.warn(`No token provided. Responding with 403 Forbidden.`);
-    return res
-      .status(403)
-      .json({ status: "error", errorCode: "No token provided." });
+    return res.status(403).json({ status: "error", errorCode: "NO_TOKEN_ERR" });
   }
 
   jwt.verify(JWTtoken, JWT_SECRET, (err, decoded) => {
@@ -22,7 +20,7 @@ export function JWTverificator(req, res, next) {
       );
       return res
         .status(401)
-        .json({ status: "error", errorCode: "Invalid verification token." });
+        .json({ status: "error", errorCode: "INVALID_VERIFICATION_TOKEN_ERR" });
     }
 
     // Proceed if token is valid
@@ -32,20 +30,20 @@ export function JWTverificator(req, res, next) {
 }
 
 // Middleware to verify API Key - currently not used
-export function APIkeyVerificator(req, res, next) {
-  loggerMain.info("📩 Received a new POST request.");
+// export function APIkeyVerificator(req, res, next) {
+//   loggerMain.info("📩 Received a new POST request.");
 
-  const apiKey = process.env.API_KEY;
-  const userApiKey = req.headers["x-api-key"];
+//   const apiKey = process.env.API_KEY;
+//   const userApiKey = req.headers["x-api-key"];
 
-  if (userApiKey !== apiKey) {
-    loggerMain.warn(
-      `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
-    );
-    res
-      .status(403)
-      .json({ status: "error", errorCode: "Forbidden: Invalid API Key" });
-  } else {
-    next();
-  }
-}
+//   if (userApiKey !== apiKey) {
+//     loggerMain.warn(
+//       `🔒 Unauthorized request. Responding with: [403 Forbidden]\n`
+//     );
+//     res
+//       .status(403)
+//       .json({ status: "error", errorCode: "Forbidden: Invalid API Key" });
+//   } else {
+//     next();
+//   }
+// }

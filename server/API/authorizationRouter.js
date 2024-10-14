@@ -1,6 +1,6 @@
 import express from "express";
 import { fetchPassword } from "../Database/mysql.js";
-import { loggerMain} from "../Utils/logger.js";
+import { loggerMain } from "../Utils/logger.js";
 import { JWTverificator } from "../Utils/middleware.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -8,6 +8,7 @@ import bcrypt from "bcrypt";
 export const authRouter = express.Router();
 
 const JWT_SECRET = process.env.JWT_SECRET;
+const TOKEN_EXP = process.env.TOKEN_EXP;
 
 authRouter.post("/login", async (req, res) => {
   loggerMain.info("↘️ Received a new login attempt.");
@@ -36,18 +37,16 @@ authRouter.post("/login", async (req, res) => {
 
     // Generate a JWT token valid for 1 hour
     // Default headers: { "alg": "HS256", "typ": "JWT" } Claims on payload: { "iat": xxx, "exp": xxx }
-    const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: "1h" });
+    const JWTtoken = jwt.sign({}, JWT_SECRET, { expiresIn: `${TOKEN_EXP}ms` });
 
     // Send the JWT token as a HttpOnly, Secure, SameSite cookie
     res.cookie("auth_token", JWTtoken, {
       httpOnly: true,
       secure: true,
       sameSite: "Strict",
-      maxAge: 3600000, // 1 hour
+      maxAge: parseInt(TOKEN_EXP),
     });
-    res
-      .status(200)
-      .json({ status: "success" });
+    res.status(200).json({ status: "success" });
   } else {
     loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
     res
@@ -65,15 +64,11 @@ authRouter.post("/logout", async (req, res) => {
     secure: true,
     sameSite: "Strict",
   });
-  res
-    .status(200)
-    .json({ status: "success" });
+  res.status(200).json({ status: "success" });
   loggerMain.info(`Auth cookie cleared.`);
 });
 
 authRouter.get("/test", JWTverificator, async (req, res) => {
   loggerMain.info("📩 [/test] Received a new GET request.");
-  res
-    .status(200)
-    .json({ status: "success" });
+  res.status(200).json({ status: "success" });
 });
