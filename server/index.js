@@ -19,7 +19,7 @@ app.use(
   cors({
     origin:
       NODE_ENV === "production"
-        ? "https://sql-translator-development.up.railway.app"
+        ? "random-string"
         : "http://localhost:4200",
     credentials: true,
   })
