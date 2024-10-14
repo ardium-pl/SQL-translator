@@ -57,44 +57,41 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
   }
 
-  readonly APIErrorCodeMapping: APIErrorCodeMapping = {
-    'No token provided.': {
-      message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-      action: () => {
-        this.authService.removeAuthenticatedFlag();
-        this.authService.isSessionExpired.set(true);
-      },
+readonly APIErrorCodeMapping: APIErrorCodeMapping = {
+  'NO_TOKEN_ERR': {
+    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
+    action: () => {
+      this.authService.removeAuthenticatedFlag();
+      this.authService.isSessionExpired.set(true);
     },
-    'Invalid verification token.': {
-      message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
-      action: () => {
-        this.authService.removeAuthenticatedFlag();
-        this.authService.isSessionExpired.set(true);
-      },
+  },
+  'INVALID_VERIFICATION_TOKEN_ERR': {
+    message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
+    action: () => {
+      this.authService.removeAuthenticatedFlag();
+      this.authService.isSessionExpired.set(true);
     },
-    'Invalid password': {
-      message: 'Podano nieprawidłowe hasło.',
-    },
-    'No query provided.': {
-      message:
-        'Nie wprowadzono zapytania. Proszę podać zapytanie, aby kontynuować.',
-    },
-    'No password provided': {
-      message: 'Nie wprowadzono hasła. Proszę podać hasło, aby kontynuować.',
-    },
-    'Internal server error': {
-      message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
-    },
-    'An error occured while processing the request.': {
-      message: 'Wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie.',
-    },
-    'It seems that you want to perform a query other than SELECT, which I cannot execute.':
-      {
-        message:
-          'Wygląda na to, że chcesz wykonać zapytanie inne niż SELECT, co nie jest obsługiwane.',
-      },
-    'Database error. Failed to execute the SQL query.': {
-      message: 'Błąd bazy danych. Nie udało się wykonać zapytania SQL.',
-    },
-  };
+  },
+  'INVALID_PASSWORD_ERR': {
+    message: 'Podano nieprawidłowe hasło.',
+  },
+  'NO_QUERY_ERR': {
+    message: 'Nie wprowadzono zapytania. Proszę podać zapytanie, aby kontynuować.',
+  },
+  'NO_PASSWORD_ERR': {
+    message: 'Nie wprowadzono hasła. Proszę podać hasło, aby kontynuować.',
+  },
+  'INTERNAL_SERVER_ERR': {
+    message: 'Wystąpił błąd serwera. Spróbuj ponownie później.',
+  },
+  'PROCESSING_ERR': {
+    message: 'Wystąpił błąd podczas przetwarzania żądania. Spróbuj ponownie.',
+  },
+  'UNSUPPORTED_QUERY_ERR': {
+    message: 'Wygląda na to, że chcesz wykonać zapytanie inne niż SELECT, co nie jest obsługiwane.',
+  },
+  'DATABASE_ERR': {
+    message: 'Błąd bazy danych. Nie udało się wykonać zapytania SQL.',
+  },
+};
 }

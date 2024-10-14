@@ -19,18 +19,14 @@ authRouter.post("/login", async (req, res) => {
     loggerMain.warn(
       `❌ No password provided. Responding with 401 Unauthorized.`
     );
-    res
-      .status(401)
-      .json({ status: "error", errorCode: "No password provided" });
+    res.status(401).json({ status: "error", errorCode: "NO_PASSWORD_ERR" });
     return;
   }
 
   const password = await fetchPassword();
   // Short-circuit if the server failed to fetch the password
   if (!password) {
-    res
-      .status(500)
-      .json({ status: "error", errorCode: "Internal server error" });
+    res.status(500).json({ status: "error", errorCode: "INTERNAL_SERVER_ERR" });
     return;
   }
 
@@ -51,10 +47,12 @@ authRouter.post("/login", async (req, res) => {
     });
     res
       .status(200)
-      .json({ status: "success", message: "Logged in successfully." });
+      .json({ status: "success" });
   } else {
     loggerMain.warn(`❌ Invalid password. Responding with 401 Unauthorized.`);
-    res.status(401).json({ status: "error", errorCode: "Invalid password" });
+    res
+      .status(401)
+      .json({ status: "error", errorCode: "INVALID_PASSWORD_ERR" });
   }
 });
 
@@ -69,7 +67,7 @@ authRouter.post("/logout", async (req, res) => {
   });
   res
     .status(200)
-    .json({ status: "success", message: "Logged out successfully." });
+    .json({ status: "success" });
   loggerMain.info(`Auth cookie cleared.`);
 });
 
@@ -77,5 +75,5 @@ authRouter.get("/test", JWTverificator, async (req, res) => {
   loggerMain.info("📩 [/test] Received a new GET request.");
   res
     .status(200)
-    .json({ status: "success", message: "Welcome, you passed the test!" });
+    .json({ status: "success" });
 });

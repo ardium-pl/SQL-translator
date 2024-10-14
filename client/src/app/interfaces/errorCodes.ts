@@ -1,16 +1,13 @@
 export const APIErrorCode = {
-  'No token provided.': 'No token provided.',
-  'Invalid password': 'Invalid password',
-  'No query provided.': 'No query provided.',
-  'No password provided': 'No password provided',
-  'Invalid verification token.': 'Invalid verification token.',
-  'Internal server error': 'Internal server error',
-  'An error occured while processing the request.':
-    'An error occured while processing the request.',
-  'It seems that you want to perform a query other than SELECT, which I cannot execute.':
-    'It seems that you want to perform a query other than SELECT, which I cannot execute.',
-  'Database error. Failed to execute the SQL query.':
-    'Database error. Failed to execute the SQL query.',
+  NO_TOKEN_ERR: 'NO_TOKEN_ERR',
+  INVALID_PASSWORD_ERR: 'INVALID_PASSWORD_ERR',
+  NO_QUERY_ERR: 'NO_QUERY_ERR',
+  NO_PASSWORD_ERR: 'NO_PASSWORD_ERR',
+  INVALID_VERIFICATION_TOKEN_ERR: 'INVALID_VERIFICATION_TOKEN_ERR',
+  INTERNAL_SERVER_ERR: 'INTERNAL_SERVER_ERR',
+  PROCESSING_ERR: 'PROCESSING_ERR',
+  UNSUPPORTED_QUERY_ERR: 'UNSUPPORTED_QUERY_ERR',
+  DATABASE_ERR: 'DATABASE_ERR',
 } as const;
 export type APIErrorCode = (typeof APIErrorCode)[keyof typeof APIErrorCode];
 

@@ -18,7 +18,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
   // console.log(promptForSQL(userQuery));
 
   if (!userQuery) {
-    res.status(400).json({ status: "error", errorCode: "No query provided." });
+    res.status(400).json({ status: "error", errorCode: "NO_QUERY_ERR" });
 
     return;
   }
@@ -36,7 +36,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
       loggerOpenAI.error("Failed to create the SQL query.");
       res.status(500).json({
         status: "error",
-        errorCode: "An error occured while processing the request.",
+        errorCode: "PROCESSING_ERR",
       });
 
       return;
@@ -45,9 +45,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
     if (!sqlAnswer.isSelect) {
       res.status(400).json({
         status: "error",
-        errorCode:
-          "It seems that you want to perform a query other than SELECT, which I cannot execute.",
-        sqlStatement: sqlAnswer.sqlStatement,
+        errorCode: "UNSUPPORTED_QUERY_ERR",
       });
 
       return;
@@ -58,8 +56,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
     if (!rows) {
       res.status(500).json({
         status: "error",
-        errorCode: "Database error. Failed to execute the SQL query.",
-        sqlStatement: sqlAnswer.sqlStatement,
+        errorCode: "DATABASE_ERR",
       });
 
       return;
@@ -75,7 +72,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
       loggerOpenAI.error("Failed to generate the formatted answer.");
       res.status(500).json({
         status: "error",
-        errorCode: "An error occured while processing the request.",
+        errorCode: "PROCESSING_ERR",
       });
 
       return;
@@ -94,7 +91,7 @@ mainRouter.post("/language-to-sql", JWTverificator, async (req, res) => {
     loggerMain.error(error);
     res.status(500).json({
       status: "error",
-      errorCode: "An error occured while processing the request.",
+      errorCode: "PROCESSING_ERR",
     });
   }
 });
