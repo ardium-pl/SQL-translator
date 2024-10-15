@@ -1,8 +1,5 @@
 import mysql from "mysql2/promise";
-import dotenv from "dotenv";
 import { loggerMySQL } from "../Utils/logger.js";
-
-dotenv.config();
 
 const dbConfig = {
   host: process.env.MYSQL_HOST,
@@ -42,16 +39,26 @@ export async function executeSQL(query) {
       const [rows] = await connection.execute(query);
       loggerMySQL.info("Successfully fetched the raw data! ✅");
       loggerMySQL.info(`💾 Number of rows fetched: ${rows.length}`);
-      // console.log("💾 Fetched data:", rows);
       return rows;
     } catch (error) {
       loggerMySQL.error(error);
+      return null;
     } finally {
       connection.end();
     }
   }
-
-  return null;
 }
 
-createTestConnection();
+export async function fetchPassword() {
+  const query = `SELECT password_hash FROM secrets WHERE id = 1`;
+  const result = await executeSQL(query);
+  if (result && result.length > 0 && result[0].password_hash) {
+    loggerMySQL.info(`Password hash fetched from the db.`);
+    return result[0].password_hash;
+  } else {
+    loggerMySQL.error(`❌ Failed to fetch the password.`);
+    return null;
+  }
+}
+
+await createTestConnection();

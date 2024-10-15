@@ -1,10 +1,7 @@
 import OpenAI from "openai";
 import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
-import dotenv from "dotenv";
 import { loggerOpenAI } from "../Utils/logger.js";
-
-dotenv.config();
 
 const openai = new OpenAI();
 
@@ -31,8 +28,6 @@ export async function generateGPTAnswer(prompt, responseFormat, responseName) {
       return null;
     }
     loggerOpenAI.info("Successfully generated an AI response! ✅");
-    // console.log("📄 Response:", response, "\n");
-    // console.log("📄 Parsed response:", response.parsed);
     return response.parsed;
   } catch (error) {
     if (error.constructor.name == "LengthFinishReasonError") {

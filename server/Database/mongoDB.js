@@ -1,8 +1,5 @@
 import { MongoClient } from "mongodb";
 import { loggerMongoDB } from "../Utils/logger.js";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const MONGO_CONNECTION_STRING = process.env.MONGO_CONNECTION_STRING;
 const MONGO_DATABASE = process.env.MONGO_DATABASE;
@@ -15,17 +12,14 @@ async function mongoRetrieveOne(database, collection, client) {
     const coll = db.collection(collection);
 
     const filter = {
-      schemaVersion:
-        "withExampleDistinctValuesProperColumnDescriptions",
+      schemaVersion: "withExampleDistinctValuesProperColumnDescriptions",
     };
     const options = {
       // Exclude _id and schemaVersion fields from the returned document
-      // projection: { _id: 0, schemaVersion: 0 },
-      projection: { _id: 0 },
+      projection: { _id: 0, schemaVersion: 0 },
     };
     const document = await coll.findOne(filter, options);
-    loggerMongoDB.info(`📄 Retrieved a single document.`);
-    loggerMongoDB.info(`Schema version: ${document.schemaVersion}`);
+    loggerMongoDB.info(`📄 Retrieved a db schema.`);
 
     return document;
   } catch (error) {
@@ -46,7 +40,7 @@ async function mongoRetrieveMany(database, collection, client) {
 
     const documents = await coll.find({}, options).toArray();
     loggerMongoDB.info(
-      `📄 Retrieved a total of ${documents.length} documents.`
+      `📄 Retrieved a total of ${documents.length} examples.`
     );
 
     return documents;
@@ -61,7 +55,7 @@ export async function loadDbInformation() {
   try {
     client = new MongoClient(MONGO_CONNECTION_STRING);
 
-    const dbSchemaWithExamples = await mongoRetrieveOne(
+    const dbSchema = await mongoRetrieveOne(
       MONGO_DATABASE,
       MONGO_COLLECTION_SCHEMAS,
       client
@@ -74,7 +68,7 @@ export async function loadDbInformation() {
 
     loggerMongoDB.info("Successfully loaded database information! ✅");
     return {
-      dbSchemaWithExamples: dbSchemaWithExamples,
+      dbSchema: dbSchema,
       examplesForSQL: examplesForSQL,
     };
   } catch (error) {
@@ -84,7 +78,7 @@ export async function loadDbInformation() {
     loggerMongoDB.error(error);
 
     return {
-      dbSchemaWithExamples: null,
+      dbSchema: null,
       examplesForSQL: [],
     };
   } finally {
