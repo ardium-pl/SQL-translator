@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
 import {
-  HttpEvent,
-  HttpInterceptor,
-  HttpHandler,
-  HttpRequest,
   HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
 } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MessageService } from '../services/message.service';
-import { AuthService } from '../services/auth.service';
 import { APIErrorCode, APIErrorCodeMapping } from '../interfaces/errorCodes';
+import { AuthService } from '../services/auth.service';
+import { MessageService } from '../services/message.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -61,15 +61,13 @@ readonly APIErrorCodeMapping: APIErrorCodeMapping = {
   'NO_TOKEN_ERR': {
     message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
     action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
+      this.authService.isLoggedIn.set(false);
     },
   },
   'INVALID_VERIFICATION_TOKEN_ERR': {
     message: 'Twoja sesja wygasła. Zaloguj się ponownie aby kontynuować.',
     action: () => {
-      this.authService.removeAuthenticatedFlag();
-      this.authService.isSessionExpired.set(true);
+      this.authService.isLoggedIn.set(false);
     },
   },
   'INVALID_PASSWORD_ERR': {

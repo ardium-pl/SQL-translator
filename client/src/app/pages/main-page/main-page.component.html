@@ -38,7 +38,7 @@
               [disabled]="
                 this.dataFetchingService.isLoading() ||
                 this.authService.isWaitingForLogout() ||
-                this.authService.isSessionExpired()
+                !this.authService.isLoggedIn()
               "
               type="submit"
               >Zatwierdź</app-button
