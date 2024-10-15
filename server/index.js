@@ -19,7 +19,7 @@ app.use(
   cors({
     origin:
       NODE_ENV === "production"
-        ? "https://sql-translator-development.up.railway.app"
+        ? "https://budmat.ardium.pl"
         : "http://localhost:4200",
     credentials: true,
   })
